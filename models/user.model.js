@@ -8,7 +8,11 @@ const userSchema = mongoose.Schema({
         min: '1980-09-28',
         max: '2005-1-1'
     },
-    emailAddress:String,
+    emailAddress:{
+        type:String,
+        required:true,
+        unique:true,
+    },
     country:String,
     phoneNumber:String,
     studyField:String,

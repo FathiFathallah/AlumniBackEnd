@@ -36,7 +36,7 @@ module.exports.signUp = async (req,res)=>{
                 studyState,
                 userName,
                 password:hash });
-            let token = jwt.sign({emailAddress}, "AlumniVerifyEmail___");
+            let token = jwt.sign({emailAddress,firstName,lastName,phoneNumber}, "AlumniVerifyEmail___");
             sendEmail({emailAddress, token});
             res.json({message:`success`});
         });
@@ -70,6 +70,7 @@ module.exports.logIn = async (req,res)=>{
 
 module.exports.emailVerify = async (req, res)=>{
     let { token } = req.params;
+    console.log(token);
     jwt.verify(token, "AlumniVerifyEmail___", async (err,decoded)=>{
         if(err){
             res.json(err);
