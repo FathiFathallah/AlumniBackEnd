@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 const { toeknChanger } = require('./user.emailHTML');
-module.exports.sendEmail = async (options) => {
+module.exports.sendEmail = async function send(options) {
 
     let transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -21,14 +21,16 @@ module.exports.sendEmail = async (options) => {
         text: "",
         html: htmlEmailVerify,
     };
-    transporter.sendMail(details, (err, info) => {
+
+    err = transporter.sendMail(details, (err, info) => {
         if (err) {
             console.log(err);
-            transporter.sendMail(details);
+            send(options);
         }
         else {
             console.log(info);
         }
     });
+
 
 };
