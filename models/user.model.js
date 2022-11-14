@@ -14,10 +14,37 @@ const userSchema = mongoose.Schema({
         unique:true,
     },
     country:String,
+    city:{
+        type:String,
+        default:"",
+    },
     phoneNumber:String,
     studyField:String,
     studyState:String,
     userName:String,
+    specialization:{
+        type:String,
+        default:"",
+    },
+    graduationYear:{
+        type: Date
+    },
+    education:Array,
+    skills:Array,
+    about:{
+        type:String,
+        default:"",
+    },
+    cv:{
+        type:String,
+        default:"",
+    },
+    profilePic:{
+        type:String,
+        default:"",
+    },
+    experience:Array,
+    positions:Array,
     password:String,
     emailConfirm:{
         type:Boolean,

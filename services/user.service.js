@@ -3,6 +3,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { sendEmail } = require('../email/user.email');
 
+//Sign Up To Alumni
 module.exports.signUp = async (req,res)=>{
 
     const {   firstName,
@@ -44,6 +45,29 @@ module.exports.signUp = async (req,res)=>{
     }
 };
 
+//Verify Alumni Account
+module.exports.emailVerify = async (req, res)=>{
+    let { token } = req.params;
+    console.log(token);
+    jwt.verify(token, "AlumniVerifyEmail___", async (err,decoded)=>{
+        if(err){
+            res.json(err);
+        }
+        else{
+            let emailAddress = decoded.emailAddress;
+            let user = await userModel.findOne({emailAddress});
+            if(user){
+                await userModel.findOneAndUpdate({emailAddress},{emailConfirm:true});
+                res.json({message:"email verified"});
+            }
+            else{
+                res.json({message:"user not found"});
+            }
+        }
+    });
+};
+
+//LogIn Alumni Account
 module.exports.logIn = async (req,res)=>{
     const { emailAddress, password } = req.body;
     let user = await userModel.findOne({emailAddress});
@@ -66,25 +90,55 @@ module.exports.logIn = async (req,res)=>{
     }
 };
 
-
-
-module.exports.emailVerify = async (req, res)=>{
-    let { token } = req.params;
-    console.log(token);
-    jwt.verify(token, "AlumniVerifyEmail___", async (err,decoded)=>{
-        if(err){
-            res.json(err);
-        }
-        else{
-            let emailAddress = decoded.emailAddress;
-            let user = await userModel.findOne({emailAddress});
-            if(user){
-                await userModel.findOneAndUpdate({emailAddress},{emailConfirm:true});
-                res.json({message:"email verified"});
-            }
-            else{
-                res.json({message:"user not found"});
-            }
-        }
-    });
+//Get Personal Information
+module.exports.getPerosnalInfo = async (req,res) => {
+    let { _id } = req.params;
+    let user = await userModel.findOne({_id});
+    let {
+        firstName,
+        lastName,
+        birthDate,
+        country,
+        city,
+        phoneNumber 
+    } = user;
+    birthDate = birthDate.getFullYear()+"-"+(Number(birthDate.getMonth())+1)+"-"+birthDate.getDate();
+    let personalInfo = {
+        firstName,
+        lastName,
+        birthDate,
+        country,
+        city,
+        phoneNumber,
+    };
+    res.json({message:'success',personalInfo});
 };
+
+//Update Personal Information
+module.exports.updatePerosnalInfo = async (req,res) => {
+    const {
+        _id,
+        firstName,
+        lastName,
+        birthDate,
+        country,
+        city,
+        phoneNumber 
+    } = req.body;
+    let user = await userModel.findOne({phoneNumber});
+    if(!user || _id == user._id){
+        await userModel.findOneAndUpdate({_id},{
+            firstName,
+            lastName,
+            birthDate,
+            country,
+            city,
+            phoneNumber 
+        });
+        res.json({message:'success'});
+    }
+    else{
+        res.json({message:'phone already exists'});
+    }    
+};
+

@@ -1,8 +1,11 @@
-const { signUp, logIn, emailVerify } = require('../services/user.service');
-const { userValidation } = require('../middlewware/validation/user.validate');
+const { signUp, logIn, emailVerify, getPerosnalInfo, updatePerosnalInfo } = require('../services/user.service');
+const { userValidation, updateValidation } = require('../middlewware/validation/user.validate');
 const router = require('express').Router();
 router.post('/signUp', userValidation, signUp);
 router.post('/logIn', logIn);
 router.get('/signUp/verify/:token', emailVerify);
+router.get('/personalInfo/:_id', getPerosnalInfo);
+router.put('/personalInfo/update',updateValidation, updatePerosnalInfo);
+
 
 module.exports = router;
