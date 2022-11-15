@@ -142,3 +142,21 @@ module.exports.updatePerosnalInfo = async (req,res) => {
     }    
 };
 
+
+//Upload User Profile Picture
+module.exports.uploadUserProfilePic = async (req, res) => {
+    const { _id } = req.body;
+    let user = await userModel.findOneAndUpdate({_id},{profilePic:req.file.filename});
+    if(user)
+        res.json({message:'success'}) ;      
+    else res.json({message:'something went wrong'});
+};
+
+//Upload User CV|RESUME
+module.exports.uploadUserCV = async (req, res) => {
+    const { _id } = req.body;
+    let user = await userModel.findOneAndUpdate({_id},{cv:req.file.filename});
+    if(user)
+        res.json({message:'success'}) ;      
+    else res.json({message:'something went wrong'});
+};
