@@ -37,7 +37,7 @@ module.exports.userValidation = (req, res, next) => {
     }
 };
 
-//Update Validation
+//Update Personal Information Validation
 const updateValidationSchema = joi.object({
     _id:joi.string().required(),
     firstName:joi.string().required().max(50),
@@ -63,5 +63,24 @@ module.exports.updateValidation = (req, res, next) => {
         else{
             res.json({message:error.details[0].message.replace(/[^\w\s]/gi, '')});
         }
+    }
+};
+
+
+//Update Account Information Validation
+const accountInfovalidationSchema = joi.object({
+    _id:joi.string().required(),
+    userName:joi.string().required().min(1),
+    emailAddress:joi.string().email().required(),
+    about:joi.string().required()
+});
+
+module.exports.accountInfovalidation = (req, res, next) => {
+    const { error } = accountInfovalidationSchema.validate(req.body,{abortEarly:true});
+    if(!error){
+        next();
+    }
+    else{
+            res.json({message:error.details[0].message.replace(/[^\w\s]/gi, '')});
     }
 };

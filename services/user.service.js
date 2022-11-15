@@ -100,7 +100,9 @@ module.exports.getPerosnalInfo = async (req,res) => {
         birthDate,
         country,
         city,
-        phoneNumber 
+        phoneNumber,
+        profilePic,
+        cv
     } = user;
     birthDate = birthDate.getFullYear()+"-"+(Number(birthDate.getMonth())+1)+"-"+birthDate.getDate();
     let personalInfo = {
@@ -110,6 +112,8 @@ module.exports.getPerosnalInfo = async (req,res) => {
         country,
         city,
         phoneNumber,
+        profilePic,
+        cv
     };
     res.json({message:'success',personalInfo});
 };
@@ -159,4 +163,44 @@ module.exports.uploadUserCV = async (req, res) => {
     if(user)
         res.json({message:'success'}) ;      
     else res.json({message:'something went wrong'});
+};
+
+
+//Get Account Information
+module.exports.getAccountInfo = async (req,res) => {
+    let { _id } = req.params;
+    let user = await userModel.findOne({_id});
+    let {
+        emailAddress,
+        userName,
+        about
+    } = user;
+    let AccountInfo = {
+        emailAddress,
+        userName,
+        about
+    };
+    res.json({message:'success',AccountInfo});
+};
+
+//Update Account Information
+module.exports.updateAccountInfo = async (req,res) => {
+    const {
+        _id,
+        emailAddress,
+        userName,
+        about
+    } = req.body;
+    let user = await userModel.findOne({emailAddress});
+    if(!user || _id == user._id){
+        await userModel.findOneAndUpdate({_id},{
+            emailAddress,
+            userName,
+            about
+        });
+        res.json({message:'success'});
+    }
+    else{
+        res.json({message:'email already exists'});
+    }    
 };
