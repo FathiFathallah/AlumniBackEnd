@@ -204,3 +204,10 @@ module.exports.updateAccountInfo = async (req,res) => {
         res.json({message:'email already exists'});
     }    
 };
+
+//GET ALL INFORMATION
+module.exports.getAllInfo = async (req,res) => {
+    let { _id } = req.params;
+    let user = await userModel.findOne({_id});
+    res.json({message:'success',user});  
+};
