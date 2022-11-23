@@ -211,3 +211,77 @@ module.exports.getAllInfo = async (req,res) => {
     let user = await userModel.findOne({_id});
     res.json({message:'success',user});  
 };
+
+//Update Skills
+module.exports.updateSkills = async (req,res) => {
+    const {
+        _id,
+        newSkill,
+    } = req.body;
+    let user = await userModel.findOne({_id});
+    if(user){
+        await userModel.findOneAndUpdate({_id},
+            { $addToSet: {skills: newSkill} });
+        res.json({message:'success'});
+    }
+    else{
+        res.json({message:'user not found'});
+    }    
+};
+
+
+//Update Position
+module.exports.updatePosition = async (req,res) => {
+    const {
+        _id,
+        company,
+        startDate,
+        positionName,
+        positionDetails
+    } = req.body;
+    let user = await userModel.findOne({_id});
+    if(user){
+        await userModel.findOneAndUpdate({_id},
+            { $addToSet: {positions: {
+                company,
+                startDate,
+                positionName,
+                positionDetails
+            }} });
+        res.json({message:'success'});
+    }
+    else{
+        res.json({message:'user not found'});
+    }    
+};
+
+
+
+//Update Education
+module.exports.updateEducation = async (req,res) => {
+    const {
+        _id,
+        university,
+        faculty,
+        specialization,
+        degree,
+        startDate,
+        endDate
+    } = req.body;
+    let user = await userModel.findOne({_id});
+    if(user){
+        await userModel.findOneAndUpdate({_id},
+            { $addToSet: {education: {
+                university,
+                faculty,
+                specialization,
+                degree,
+                startDate,
+                endDate
+            }} });
+        res.json({message:'success'});
+    }
+    else{
+        res.json({message:'user not found'});
+    }    
+};

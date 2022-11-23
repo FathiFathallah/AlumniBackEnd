@@ -1,4 +1,4 @@
-const { signUp, logIn, emailVerify, getPerosnalInfo, updatePerosnalInfo, uploadUserProfilePic, uploadUserCV, getAccountInfo, updateAccountInfo, getAllInfo } = require('../services/user.service');
+const { signUp, logIn, emailVerify, getPerosnalInfo, updatePerosnalInfo, uploadUserProfilePic, uploadUserCV, getAccountInfo, updateAccountInfo, getAllInfo, updateSkills, updatePosition, updateEducation } = require('../services/user.service');
 const { userValidation, updateValidation, accountInfovalidation } = require('../middlewware/validation/user.validate');
 const { uploadPicMiddleware, uploadCVMiddleware } = require('../middlewware/upload/user.upload');
 
@@ -13,7 +13,9 @@ router.put('/uploadCV', uploadCVMiddleware, uploadUserCV);
 router.get('/accountInfo/:_id', getAccountInfo);
 router.put('/accountInfo/update',accountInfovalidation, updateAccountInfo);
 router.get('/AllData/:_id', getAllInfo);
-
+router.put('/addSkill/update', updateSkills);
+router.put('/addPosition/update', updatePosition);
+router.put('/addEducation/update', updateEducation);
 
 
 
