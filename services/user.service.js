@@ -208,7 +208,7 @@ module.exports.updateAccountInfo = async (req,res) => {
 //GET ALL INFORMATION
 module.exports.getAllInfo = async (req,res) => {
     let { _id } = req.params;
-    let user = await userModel.findOne({_id});
+    let user = await userModel.findOne({_id});    
     res.json({message:'success',user});  
 };
 
@@ -284,4 +284,90 @@ module.exports.updateEducation = async (req,res) => {
     else{
         res.json({message:'user not found'});
     }    
+};
+
+
+//Update Experiences
+module.exports.updateExperience = async (req,res) => {
+    const {
+        _id,
+        orginization,
+        startDate,
+        endDate,
+        details,
+    } = req.body;
+    let fileName = req.file.filename;
+    let user = await userModel.findOne({_id});
+    if(user){
+        await userModel.findOneAndUpdate({_id},
+            { $addToSet: {experience: {
+                experienceId:user.experience.length + 1,
+                orginization,
+                startDate,
+                endDate,
+                details,
+                fileName
+            }} });
+        res.json({message:'success'});
+    }
+    else{
+        res.json({message:'user not found'});
+    }  
+
+};
+
+//Get Experinece
+module.exports.getExperience = async (req,res) => {
+    let { _id } = req.params;
+    let user = await userModel.findOne({_id}); 
+    res.json({experience:user.experience})
+};
+
+
+//Get Experinece File
+module.exports.getExperienceFile = async (req,res) => {
+    let { _id, experienceId } = req.body;
+    let user = await userModel.findOne({_id}); 
+    const result = user.experience.filter(function (el){
+      return el.experienceId == experienceId;
+    });
+    res.sendFile((__dirname.substring(0, __dirname.length-8) + 'experiencesFiles\\' + result[0].fileName));   
+};
+
+//Get Education
+module.exports.getEducation = async (req,res) => {
+    let { _id } = req.params;
+    let user = await userModel.findOne({_id}); 
+    res.json({education:user.education})
+};
+
+//Get Positions
+module.exports.getPositions = async (req,res) => {
+    let { _id } = req.params;
+    let user = await userModel.findOne({_id}); 
+    res.json({positions:user.positions})
+};
+
+//Get Skills
+module.exports.getSkills = async (req,res) => {
+    let { _id } = req.params;
+    let user = await userModel.findOne({_id}); 
+    res.json({skills:user.skills})
+};
+
+// GET PROFILE PICTURE
+module.exports.getProfilePicture = async (req,res) => {
+    let { _id } = req.params;
+    let user = await userModel.findOne({_id});
+    const { profilePic } = user;
+    res.sendFile((__dirname.substring(0, __dirname.length-8) + 'profilePictures\\' + profilePic));  
+};
+
+
+// GET CV
+module.exports.getCV = async (req,res) => {
+    let { _id } = req.params;
+    let user = await userModel.findOne({_id});
+    const { cv } = user;
+    res.sendFile((__dirname.substring(0, __dirname.length-8) + 'resumesCV\\' + cv));  
 };

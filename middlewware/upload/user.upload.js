@@ -26,3 +26,17 @@ const fileStorageEngine = multer.diskStorage({
 });
 const CVUpload = multer({storage:fileStorageEngine});
 module.exports.uploadCVMiddleware = CVUpload.single('CV');
+
+
+//FOR EXPERIENCE FILES
+const experienceStorageEngine = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './experiencesFiles');
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + '-' + file.originalname);
+    }
+});
+const ExperienceFileUpload = multer({storage:experienceStorageEngine});
+module.exports.uploadExperienceFileMiddleware = ExperienceFileUpload.single('experienceFile');
