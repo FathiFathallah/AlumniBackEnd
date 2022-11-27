@@ -2,6 +2,7 @@ const { userModel } = require('../models/user.model');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { sendEmail } = require('../email/user.email');
+const path = require('path');
 
 //Sign Up To Alumni
 module.exports.signUp = async (req,res)=>{
@@ -370,4 +371,24 @@ module.exports.getCV = async (req,res) => {
     let user = await userModel.findOne({_id});
     const { cv } = user;
     res.sendFile((__dirname.substring(0, __dirname.length-8) + 'resumesCV\\' + cv));  
+};
+
+
+//TEST | SENDING AND RECEIVING FILES
+const fs = require('fs');
+module.exports.getFileTest = async (req,res) => {
+    let { _id } = req.params;
+    let user = await userModel.findOne({_id});
+    //res.sendFile((__dirname.substring(0, __dirname.length-8) + 'profilePictures\\1668534880867-284233604-0ab268c8a5918132e1bccb7291a7c351.jpg'));
+    let  dataFile = fs.readFileSync((__dirname.substring(0, __dirname.length-8) + 'profilePictures\\' + user.profilePic));
+    let a = path.extname(user.profilePic).toLowerCase();
+    let type;
+    if(a == ".jpeg" || a == ".jpg" || a == ".png" || a == ".tiff" || a == ".gif") {
+        type = "img";
+    }
+    else if(a == ".mp4" || a == ".m4a"|| a == ".f4v" || a == ".m4b" || a == ".mov") {
+        type = "video";
+    }
+    let file = { dataFile , type};
+    res.json({message:'success',user,file}); 
 };

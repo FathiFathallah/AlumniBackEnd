@@ -1,4 +1,4 @@
-const { signUp, logIn, emailVerify, getPerosnalInfo, updatePerosnalInfo, uploadUserProfilePic, uploadUserCV, getAccountInfo, updateAccountInfo, getAllInfo, updateSkills, updatePosition, updateEducation, getProfilePicture, getCV, updateExperience, getExperience, getExperienceFile, getEducation, getPositions, getSkills } = require('../services/user.service');
+const { signUp, logIn, emailVerify, getPerosnalInfo, updatePerosnalInfo, uploadUserProfilePic, uploadUserCV, getAccountInfo, updateAccountInfo, getAllInfo, updateSkills, updatePosition, updateEducation, getProfilePicture, getCV, updateExperience, getExperience, getExperienceFile, getEducation, getPositions, getSkills, getFileTest } = require('../services/user.service');
 const { userValidation, updateValidation, accountInfovalidation } = require('../middlewware/validation/user.validate');
 const { uploadPicMiddleware, uploadCVMiddleware, uploadExperienceFileMiddleware } = require('../middlewware/upload/user.upload');
 
@@ -30,6 +30,9 @@ router.put('/addPosition/update', updatePosition);
 router.put('/addEducation/update', updateEducation);
 router.put('/addExperience/update',uploadExperienceFileMiddleware, updateExperience);
 
+
+//TEST
+router.get('/getFileTest/:_id', getFileTest);
 
 
 module.exports = router;
