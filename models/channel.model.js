@@ -13,11 +13,6 @@ const channelSchema = mongoose.Schema({
         type:String,
         required:true,
         unique:true,
-    },
-    country:String,
-    emailConfirm:{
-        type:Boolean,
-        default:false
     }
 },{
     timestamps:true,

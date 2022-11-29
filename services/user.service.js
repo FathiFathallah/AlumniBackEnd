@@ -77,9 +77,9 @@ module.exports.logIn = async (req,res)=>{
         if(match){
             //let token = jwt.sign({userId:user._id,name:user.name,emailConfirm:user.emailConfirm},'alumni@nodeJS');
             if(user.isAdmin) 
-                res.json({message:'success admin'});
+                res.json({message:'success admin',_id:user._id});
             else if(user.emailConfirm)
-                res.json({message:'success user'});
+                res.json({message:'success user',_id:user._id});
             else res.json({message:'email verification needed'});
         }
         else{

@@ -1,11 +1,19 @@
 const { mongoose } = require('mongoose');
 
 const postSchema = mongoose.Schema({
-    channelId:{
+    posterName:{
         type:String,
         required:true,
     },
-    expert:{
+    posterId:{
+        type:String,
+        required:true,
+    },
+    expertName:{
+        type:String,
+        max:100
+    },
+    expertId:{
         type:String,
         max:100
     },
@@ -13,7 +21,7 @@ const postSchema = mongoose.Schema({
         type:String,
         max:500
     },
-    file:{
+    mediaFile:{
         type:String
     },
     likes:{
