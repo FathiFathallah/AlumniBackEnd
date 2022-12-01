@@ -8,7 +8,9 @@ const cors = require('cors');
 //Middleware Router - API
 app.use(cors());
 app.use(express.json());
+//Routing Middle Wares
 app.use(require('./api/user.api'));
+app.use(require('./api/post.api'));
 app.all('*', (req,res) => res.json({message:'page not found 404'}));
 //Creating the Server
 const port = 5000;

@@ -1,13 +1,13 @@
 const { mongoose } = require('mongoose');
 
 const postSchema = mongoose.Schema({
-    posterName:{
+    channelName:{
         type:String,
-        required:true,
+        //required:true,
     },
-    posterId:{
+    channelId:{
         type:String,
-        required:true,
+        //required:true,
     },
     expertName:{
         type:String,
