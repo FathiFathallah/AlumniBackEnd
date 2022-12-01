@@ -7,9 +7,9 @@ module.exports.addPost = async (req,res) => {
     res.json({message:"haha"});
 };
 
-
 module.exports.getPost = async (req, res) => {
-    const users = await postModel.find({expertId:req.params._id})
+    const { _id } = req.params;
+    const users = await postModel.find({expertId:_id});
     console.log(users);
     res.json({message:"haha"});
 };
