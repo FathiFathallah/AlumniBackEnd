@@ -435,3 +435,183 @@ module.exports.deleteExperience = async (req,res) => {
     res.json({message:'success'});
 };
 
+
+//Change Education
+module.exports.changeEducation = async (req,res) => {
+    const {
+        _id,
+        educationId,
+        university,
+        faculty,
+        specialization,
+        degree,
+        startDate,
+        endDate
+    } = req.body;
+    await userModel.updateOne(
+        { _id, "education.educationId": Number(educationId) },
+        { $set: { 
+            "education.$.university" : university,
+            "education.$.faculty" : faculty,
+            "education.$.specialization" : specialization,
+            "education.$.degree" : degree,
+            "education.$.startDate" : startDate,
+            "education.$.endDate" : endDate
+        }}
+    );
+    res.json({message:'success'});
+};
+
+
+//Delete Education
+module.exports.deleteEducation = async (req,res) => {
+    const { _id, educationId } = req.body;
+    await userModel.updateOne(
+        { _id },
+        { $pull: { education: { educationId: Number(educationId) } } },
+    );
+    
+    let user = await userModel.findOne({_id});
+    let { education } = user;
+    for(let i=0; i<education.length; i++){
+        education[i].educationId = i + 1;
+    }
+    await userModel.findOneAndUpdate(
+        { _id }, { education }
+    );
+    res.json({message:'success'});
+};
+
+
+
+//Change Position
+module.exports.changePosition = async (req,res) => {
+    const {
+        _id,
+        positionId,
+        company,
+        startDate,
+        positionName,
+        positionDetails
+    } = req.body;
+    await userModel.updateOne(
+        { _id, "positions.positionId": Number(positionId) },
+        { $set: { 
+            "positions.$.company" : company,
+            "positions.$.startDate" : startDate,
+            "positions.$.positionName" : positionName,
+            "positions.$.positionDetails" : positionDetails
+        }}
+    );
+    res.json({message:'success'});
+};
+
+
+//Delete Position
+module.exports.deletePosition = async (req,res) => {
+    const { _id, positionId } = req.body;
+    await userModel.updateOne(
+        { _id },
+        { $pull: { positions: { positionId: Number(positionId) } } },
+    );
+    
+    let user = await userModel.findOne({_id});
+    let { positions } = user;
+    for(let i=0; i<positions.length; i++){
+        positions[i].positionId = i + 1;
+    }
+    await userModel.findOneAndUpdate(
+        { _id }, { positions }
+    );
+    res.json({message:'success'});
+};
+
+
+//Change Skills
+module.exports.changeSkills = async (req,res) => {
+    const {
+        _id,
+        skillId,
+        newSkill
+    } = req.body;
+    await userModel.updateOne(
+        { _id, "skills.skillId": Number(skillId) },
+        { $set: { 
+            "skills.$.newSkill" : newSkill
+        }}
+    );
+    res.json({message:'success'});
+};
+
+
+//Delete Skill
+module.exports.deleteSkills = async (req,res) => {
+    const { _id, skillId } = req.body;
+    await userModel.updateOne(
+        { _id },
+        { $pull: { skills: { skillId: Number(skillId) } } },
+    );
+    
+    let user = await userModel.findOne({_id});
+    let { skills } = user;
+    for(let i=0; i<skills.length; i++){
+        skills[i].skillId = i + 1;
+    }
+    await userModel.findOneAndUpdate(
+        { _id }, { skills }
+    );
+    res.json({message:'success'});
+};
+
+
+//Upload Documents
+module.exports.uploadDocuments = async (req,res) => {
+    const { _id, updateArrayFiles } = req.body;
+    let user = await userModel.findOne({_id});
+    let { documents } = user;
+    if(updateArrayFiles[0] != "undefined"){
+        documents[0] = { cv: req.files[0].filename };
+    }
+    if(updateArrayFiles[1] != "undefined"){
+        documents[1] = { personalId: req.files[1].filename };
+    }
+    if(updateArrayFiles[2] != "undefined"){
+        documents[2] = { personalPassport: req.files[2].filename };
+    }
+    if(updateArrayFiles[3] != "undefined"){
+        documents[3] = { universityTranscript : req.files[3].filename };
+    }
+    await userModel.findOneAndUpdate(
+        { _id }, { documents }
+    );
+    res.json({message:'success'});
+};
+
+//Get Documents Name
+module.exports.getAllDocumentsNames = async (req,res) => {
+    const { _id } = req.params;
+    let user = await userModel.findOne({_id});
+    let { documents } = user;
+    res.json({message:'success',documents});
+};
+
+//Get Document File
+module.exports.getDocumentFile = async (req,res) => {
+    const { _id, fileType } = req.body;
+    let user = await userModel.findOne({_id});
+    let { documents } = user;
+    let filename = "";
+    if(fileType == "cv"){
+        filename = documents[0].cv;
+    }
+    else if(fileType == "personalId"){
+        filename = documents[1].personalId;
+    }
+    else if(fileType == "personalPassport"){
+        filename = documents[2].personalPassport;
+    }
+    else if(fileType == "universityTranscript"){
+        filename = documents[3].universityTranscript;
+    }
+    res.sendFile((__dirname.substring(0, __dirname.length-8) + 'documentFiles\\' + filename));  
+};

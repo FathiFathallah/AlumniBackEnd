@@ -40,3 +40,18 @@ const experienceStorageEngine = multer.diskStorage({
 });
 const ExperienceFileUpload = multer({storage:experienceStorageEngine});
 module.exports.uploadExperienceFileMiddleware = ExperienceFileUpload.single('experienceFile');
+
+
+
+//FOR DOCUMENT FILES
+const documentStorageEngine = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './documentFiles');
+    },
+    filename: (req, file, cb) => {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + '-' + file.originalname);
+    }
+});
+const documentFileUpload = multer({storage:documentStorageEngine});
+module.exports.uploadUserDocumentsFileMiddleware = documentFileUpload.array('documentFiles');

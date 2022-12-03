@@ -1,6 +1,7 @@
-const { signUp, logIn, emailVerify, getPerosnalInfo, updatePerosnalInfo, uploadUserProfilePic, uploadUserCV, getAccountInfo, updateAccountInfo, getAllInfo, updateSkills, updatePosition, updateEducation, getProfilePicture, getCV, updateExperience, getExperience, getExperienceFile, getEducation, getPositions, getSkills, getFileTest, changeExperience, deleteExperience } = require('../services/user.service');
+const { signUp, logIn, emailVerify, getPerosnalInfo, updatePerosnalInfo, uploadUserProfilePic, uploadUserCV, getAccountInfo, updateAccountInfo, getAllInfo, updateSkills, updatePosition, updateEducation, getProfilePicture, getCV, updateExperience, getExperience, getExperienceFile, getEducation, getPositions, getSkills, getFileTest, getAllDocumentsNames, getDocumentFile } = require('../services/user.service');
+const { changeExperience, deleteExperience, changeEducation, deleteEducation, changePosition, deletePosition, changeSkills, deleteSkills, uploadDocuments } = require('../services/user.service');
 const { userValidation, updateValidation, accountInfovalidation } = require('../middlewware/validation/user.validate');
-const { uploadPicMiddleware, uploadCVMiddleware, uploadExperienceFileMiddleware } = require('../middlewware/upload/user.upload');
+const { uploadPicMiddleware, uploadCVMiddleware, uploadExperienceFileMiddleware, uploadUserDocumentsFileMiddleware, uploadUserDocumentsFileMiddlewares } = require('../middlewware/upload/user.upload');
 
 const router = require('express').Router();
 //Sign Up and LogIn
@@ -31,13 +32,26 @@ router.put('/addEducation/update', updateEducation);
 router.put('/addExperience/update',uploadExperienceFileMiddleware, updateExperience);
 
 
+//Document Files
+router.put('/uploadDocuments/update',uploadUserDocumentsFileMiddleware, uploadDocuments);
+router.get('/getAllDocumentsNames/get/:_id', getAllDocumentsNames);
+router.post('/getDocumentFile/get', getDocumentFile);
+
+
+
+
 //Update and Change Requests + DELETE REQUESTS
 router.put('/changeExperience/update',uploadExperienceFileMiddleware, changeExperience);
 router.delete('/deteleExperience/update', deleteExperience);
 
-// router.put('/changeEducation/update', changeEducation);
-// router.put('/changePosition/update', changePosition);
-// router.put('/changeSkill/update', changeSkills);
+router.put('/changeEducation/update', changeEducation);
+router.delete('/deleteEducation/update', deleteEducation);
+
+router.put('/changePosition/update', changePosition);
+router.delete('/deletePosition/update', deletePosition);
+
+router.put('/changeSkill/update', changeSkills);
+router.delete('/deleteSkill/update', deleteSkills);
 
 
 

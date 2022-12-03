@@ -44,6 +44,7 @@ const userSchema = mongoose.Schema({
         default:"",
     },
     experience:Array,
+    documents:Array,
     positions:Array,
     password:String,
     emailConfirm:{
