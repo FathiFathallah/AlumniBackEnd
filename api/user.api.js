@@ -1,4 +1,4 @@
-const { signUp, logIn, emailVerify, getPerosnalInfo, updatePerosnalInfo, uploadUserProfilePic, uploadUserCV, getAccountInfo, updateAccountInfo, getAllInfo, updateSkills, updatePosition, updateEducation, getProfilePicture, getCV, updateExperience, getExperience, getExperienceFile, getEducation, getPositions, getSkills, getFileTest } = require('../services/user.service');
+const { signUp, logIn, emailVerify, getPerosnalInfo, updatePerosnalInfo, uploadUserProfilePic, uploadUserCV, getAccountInfo, updateAccountInfo, getAllInfo, updateSkills, updatePosition, updateEducation, getProfilePicture, getCV, updateExperience, getExperience, getExperienceFile, getEducation, getPositions, getSkills, getFileTest, changeExperience, deleteExperience } = require('../services/user.service');
 const { userValidation, updateValidation, accountInfovalidation } = require('../middlewware/validation/user.validate');
 const { uploadPicMiddleware, uploadCVMiddleware, uploadExperienceFileMiddleware } = require('../middlewware/upload/user.upload');
 
@@ -29,6 +29,16 @@ router.put('/addSkill/update', updateSkills);
 router.put('/addPosition/update', updatePosition);
 router.put('/addEducation/update', updateEducation);
 router.put('/addExperience/update',uploadExperienceFileMiddleware, updateExperience);
+
+
+//Update and Change Requests + DELETE REQUESTS
+router.put('/changeExperience/update',uploadExperienceFileMiddleware, changeExperience);
+router.delete('/deteleExperience/update', deleteExperience);
+
+// router.put('/changeEducation/update', changeEducation);
+// router.put('/changePosition/update', changePosition);
+// router.put('/changeSkill/update', changeSkills);
+
 
 
 //TEST

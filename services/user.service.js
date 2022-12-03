@@ -222,7 +222,10 @@ module.exports.updateSkills = async (req,res) => {
     let user = await userModel.findOne({_id});
     if(user){
         await userModel.findOneAndUpdate({_id},
-            { $addToSet: {skills: newSkill} });
+            { $addToSet: {skills: {
+                skillId:user.skills.length + 1,
+                newSkill
+            }} });
         res.json({message:'success'});
     }
     else{
@@ -244,6 +247,7 @@ module.exports.updatePosition = async (req,res) => {
     if(user){
         await userModel.findOneAndUpdate({_id},
             { $addToSet: {positions: {
+                positionId:user.positions.length + 1,
                 company,
                 startDate,
                 positionName,
@@ -273,6 +277,7 @@ module.exports.updateEducation = async (req,res) => {
     if(user){
         await userModel.findOneAndUpdate({_id},
             { $addToSet: {education: {
+                educationId:user.education.length + 1,
                 university,
                 faculty,
                 specialization,
@@ -392,3 +397,41 @@ module.exports.getFileTest = async (req,res) => {
     let file = { dataFile , type};
     res.json({message:'success',user,file}); 
 };
+
+
+//Change Experinece
+module.exports.changeExperience = async (req,res) => {
+    let { _id, experienceId, orginization, startDate, endDate, details } = req.body;
+    await userModel.updateOne(
+        { _id, "experience.experienceId": Number(experienceId) },
+        { $set: { 
+            "experience.$.orginization" : orginization,
+            "experience.$.startDate" : startDate,
+            "experience.$.endDate" : endDate,
+            "experience.$.details" : details,
+            "experience.$.fileName" : req.file.filename,
+        }}
+    );
+    res.json({message:'success'});
+};
+
+
+//Delete Experinece
+module.exports.deleteExperience = async (req,res) => {
+    const { _id, experienceId } = req.body;
+    await userModel.updateOne(
+        { _id },
+        { $pull: { experience: { experienceId: Number(experienceId) } } },
+    );
+    
+    let user = await userModel.findOne({_id});
+    let { experience } = user;
+    for(let i=0; i<experience.length; i++){
+        experience[i].experienceId = i + 1;
+    }
+    await userModel.findOneAndUpdate(
+        { _id }, { experience }
+    );
+    res.json({message:'success'});
+};
+
