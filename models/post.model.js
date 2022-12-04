@@ -5,15 +5,11 @@ const postSchema = mongoose.Schema({
         type:String,
         //required:true,
     },
-    channelId:{
+    orginizationId:{
         type:String,
         //required:true,
     },
     expertName:{
-        type:String,
-        max:100
-    },
-    expertId:{
         type:String,
         max:100
     },
