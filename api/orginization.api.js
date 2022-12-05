@@ -3,7 +3,7 @@ const { uploadcoverImgMiddleware } = require('../middlewware/upload/orginization
 
 const router = require('express').Router();
 
-router.post('/api/orginization/signUp', uploadcoverImgMiddleware, signUp)
+router.post('/api/orginization/signUp', uploadcoverImgMiddleware, signUp);
 
 
 

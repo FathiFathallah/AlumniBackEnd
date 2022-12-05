@@ -9,7 +9,9 @@ module.exports.signUp = async (req, res) => {
         expertName,
         category,
         country,
+        city,
         expertEmailAddress,
+        expertPhoneNumber,
         password
     } = req.body;
     const userEmail = await orginizationModel.findOne({expertEmailAddress});
@@ -24,8 +26,11 @@ module.exports.signUp = async (req, res) => {
                 expertName,
                 category,
                 country,
+                city,
                 expertEmailAddress,
-                coverImg:req.file.filename,
+                expertPhoneNumber,
+                coverImg:req.files[0].filename,
+                expertImg:req.files[1].filename,
                 password:hash });
             res.json({message:`success`});
         });

@@ -4,7 +4,7 @@ const multer = require('multer');
 //FOR POSTS MEDIA FILES
 const coverImgStorageEngine = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, './coverImg');
+        cb(null, './coverImgWithExpert');
     },
     filename: (req, file, cb) => {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
@@ -12,4 +12,4 @@ const coverImgStorageEngine = multer.diskStorage({
     }
 });
 const coverImgUpload = multer({storage:coverImgStorageEngine});
-module.exports.uploadcoverImgMiddleware = coverImgUpload.single('coverImg');
+module.exports.uploadcoverImgMiddleware = coverImgUpload.array('coverImgwithExpert');

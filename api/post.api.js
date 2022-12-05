@@ -4,7 +4,7 @@ const { addPost, getPost } = require('../services/post.service');
 const router = require('express').Router();
 
 
-router.post('/api/post/newPost', uploadMediaFileMiddleware, addPost);
+router.put('/api/post/newPost', uploadMediaFileMiddleware, addPost);
 router.get('/api/post/getPost/:_id', getPost)
 
 

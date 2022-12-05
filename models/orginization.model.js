@@ -6,6 +6,7 @@ const orginizationSchema = mongoose.Schema({
     description:String,
     expertName:String,
     category:Array,
+    expertPhoneNumber:String,
     followers:{
         type:Array,
         default:[],
@@ -19,7 +20,9 @@ const orginizationSchema = mongoose.Schema({
         default:[],
     },
     country:String,
+    city:String,
     coverImg:String,
+    expertImg:String,
     expertEmailAddress:{
         type:String,
         required:true,
