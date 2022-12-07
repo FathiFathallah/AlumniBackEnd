@@ -12,6 +12,7 @@ app.use(express.json());
 app.use(require('./api/user.api'));
 app.use(require('./api/post.api'));
 app.use(require('./api/orginization.api'));
+app.use(require('./api/job.api'));
 app.all('*', (req,res) => res.json({message:'page not found 404'}));
 //Creating the Server
 const port = 5000;

@@ -19,6 +19,10 @@ const orginizationSchema = mongoose.Schema({
         type:Array,
         default:[],
     },
+    jobs:{
+        type:Array,
+        default:[],
+    },
     country:String,
     city:String,
     coverImg:String,
