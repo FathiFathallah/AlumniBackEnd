@@ -1,12 +1,15 @@
-const { uploadMediaFileMiddleware } = require('../middlewware/upload/post.upload');
-const { addPost, getChannelPosts } = require('../services/post.service');
+const {
+  uploadMediaFileMiddleware,
+} = require("../middlewware/upload/post.upload");
+const { addPost, getChannelPosts } = require("../services/post.service");
 
-const router = require('express').Router();
+const router = require("express").Router();
 
-
-router.put('/api/post/newPost', uploadMediaFileMiddleware, addPost);
-router.get('/api/post/getChannelsPosts/:_id', getChannelPosts);
-
-
+router.put(
+  "/api/post/orginization/newPost",
+  uploadMediaFileMiddleware,
+  addPost
+);
+router.get("/api/post/getChannelsPosts/:_id", getChannelPosts);
 
 module.exports = router;

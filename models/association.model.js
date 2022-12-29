@@ -1,14 +1,13 @@
 const { mongoose } = require("mongoose");
 
-const orginizationSchema = mongoose.Schema(
+const associationSchema = mongoose.Schema(
   {
-    orginizationName: String,
-    channelName: String,
+    associationName: String,
     description: String,
     expertName: String,
     category: Array,
     expertPhoneNumber: String,
-    followers: {
+    members: {
       type: Array,
       default: [],
     },
@@ -17,10 +16,6 @@ const orginizationSchema = mongoose.Schema(
       default: [],
     },
     events: {
-      type: Array,
-      default: [],
-    },
-    jobs: {
       type: Array,
       default: [],
     },
@@ -40,7 +35,7 @@ const orginizationSchema = mongoose.Schema(
   }
 );
 
-module.exports.orginizationModel = mongoose.model(
-  "orginizations",
-  orginizationSchema
+module.exports.associationModel = mongoose.model(
+  "associations",
+  associationSchema
 );

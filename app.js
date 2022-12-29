@@ -1,19 +1,20 @@
 //Connection to the DataBase
-const { dbConnection } = require('./config/dbConnection');
+const { dbConnection } = require("./config/dbConnection");
 dbConnection();
-//Make an Application for the server to run on using Express.JS 
-const express = require('express');
+//Make an Application for the server to run on using Express.JS
+const express = require("express");
 const app = express();
-const cors = require('cors');
+const cors = require("cors");
 //Middleware Router - API
 app.use(cors());
 app.use(express.json());
 //Routing Middle Wares
-app.use(require('./api/user.api'));
-app.use(require('./api/post.api'));
-app.use(require('./api/orginization.api'));
-app.use(require('./api/job.api'));
-app.all('*', (req,res) => res.json({message:'page not found 404'}));
+app.use(require("./api/user.api"));
+app.use(require("./api/post.api"));
+app.use(require("./api/orginization.api"));
+app.use(require("./api/job.api"));
+app.use(require("./api/association.api"));
+app.all("*", (req, res) => res.json({ message: "page not found 404" }));
 //Creating the Server
 const port = 5000;
 app.listen(port, () => console.log(`Server is running at port := ${port}!`));
