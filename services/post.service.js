@@ -13,6 +13,7 @@ module.exports.addPost = async (req, res) => {
     mediaFile,
     channelName,
     expertName,
+    type: "orginization",
   });
   await orginizationModel.findOneAndUpdate(
     { _id },

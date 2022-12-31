@@ -10,6 +10,10 @@ const postSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    type: {
+      type: String,
+      enum: ["orginization", "association"],
+    },
     expertName: {
       type: String,
       max: 100,
