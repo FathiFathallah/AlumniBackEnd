@@ -4,6 +4,9 @@ const {
   updateChannelInformation,
   updateExpertInfo,
   updateChannelCover,
+  getChannelforUser,
+  followChannelforUser,
+  getRecommendedChannelforUser,
 } = require("../services/orginization.service");
 const {
   uploadcoverImgMiddleware,
@@ -24,6 +27,16 @@ router.put(
   "/api/orginization/updateChannelCover",
   expertImgUploadMiddleware,
   updateChannelCover
+);
+
+//Follow Channel for User
+router.put("/api/orginization/followChannel", followChannelforUser);
+//get User Followed Channels for User
+router.get("/api/orginization/getUserChannels/:_id", getChannelforUser);
+//get User Recommended Channels for User
+router.get(
+  "/api/orginization/getUserRecommendedChannels/:_id",
+  getRecommendedChannelforUser
 );
 
 module.exports = router;

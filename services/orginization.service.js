@@ -154,3 +154,97 @@ module.exports.updateChannelCover = async (req, res) => {
     res.json({ message: "org does not exist" });
   }
 };
+
+//CHANNELS
+module.exports.followChannelforUser = async (req, res) => {
+  const { _id, channelId } = req.body;
+  await orginizationModel.findOneAndUpdate(
+    { _id: channelId },
+    { $addToSet: { followers: _id } }
+  );
+  res.json({ message: "success" });
+};
+
+module.exports.getChannelforUser = async (req, res) => {
+  const { _id } = req.params;
+  let org = await orginizationModel.find({ followers: { $in: _id } });
+
+  for (let i = 0; i < org.length; i++) {
+    let {
+      orginizationName,
+      channelName,
+      description,
+      expertName,
+      category,
+      country,
+      city,
+      expertImg,
+      coverImg,
+    } = org[i];
+
+    let channelExpertImg = fs.readFileSync(
+      __dirname.substring(0, __dirname.length - 8) +
+        "coverImgWithExpert\\" +
+        expertImg
+    );
+    let channelCoverImg = fs.readFileSync(
+      __dirname.substring(0, __dirname.length - 8) +
+        "coverImgWithExpert\\" +
+        coverImg
+    );
+    org[i] = {
+      orginizationName,
+      channelName,
+      description,
+      expertName,
+      category: category[0],
+      country,
+      city,
+      channelExpertImg,
+      channelCoverImg,
+    };
+  }
+  res.json({ message: "success", org });
+};
+
+module.exports.getRecommendedChannelforUser = async (req, res) => {
+  const { _id } = req.params;
+  let org = await orginizationModel.find({});
+  for (let i = 0; i < org.length; i++) {
+    let {
+      _id,
+      orginizationName,
+      channelName,
+      description,
+      expertName,
+      category,
+      country,
+      city,
+      expertImg,
+      coverImg,
+    } = org[i];
+    let channelExpertImg = fs.readFileSync(
+      __dirname.substring(0, __dirname.length - 8) +
+        "coverImgWithExpert\\" +
+        expertImg
+    );
+    let channelCoverImg = fs.readFileSync(
+      __dirname.substring(0, __dirname.length - 8) +
+        "coverImgWithExpert\\" +
+        coverImg
+    );
+    org[i] = {
+      _id,
+      orginizationName,
+      channelName,
+      description,
+      expertName,
+      category: category[0],
+      country,
+      city,
+      channelExpertImg,
+      channelCoverImg,
+    };
+  }
+  res.json({ message: "success", org });
+};

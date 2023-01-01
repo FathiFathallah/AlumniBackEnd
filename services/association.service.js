@@ -1,6 +1,7 @@
 const { associationModel } = require("../models/association.model");
 const bcrypt = require("bcrypt");
 const { postModel } = require("../models/post.model");
+const fs = require("fs");
 
 module.exports.signUp = async (req, res) => {
   const {
@@ -59,4 +60,93 @@ module.exports.addPostAssociation = async (req, res) => {
     );
     res.json({ message: "success" });
   }
+};
+
+//MEMBERSHIPS
+module.exports.memberUser = async (req, res) => {
+  const { _id, associationId } = req.body;
+  await associationModel.findOneAndUpdate(
+    { _id: associationId },
+    { $addToSet: { members: _id } }
+  );
+  res.json({ message: "success" });
+};
+
+module.exports.getAssociationsforUser = async (req, res) => {
+  const { _id } = req.params;
+  let associations = await associationModel.find({ members: { $in: _id } });
+
+  for (let i = 0; i < associations.length; i++) {
+    let {
+      associationName,
+      description,
+      expertName,
+      category,
+      country,
+      city,
+      expertImg,
+      coverImg,
+    } = associations[i];
+
+    let associationsExpertImg = fs.readFileSync(
+      __dirname.substring(0, __dirname.length - 8) +
+        "coverImgWithExpert\\" +
+        expertImg
+    );
+    let associationsCoverImg = fs.readFileSync(
+      __dirname.substring(0, __dirname.length - 8) +
+        "coverImgWithExpert\\" +
+        coverImg
+    );
+    associations[i] = {
+      associationName,
+      description,
+      expertName,
+      category: category[0],
+      country,
+      city,
+      associationsExpertImg,
+      associationsCoverImg,
+    };
+  }
+  res.json({ message: "success", associations });
+};
+
+module.exports.getRecommendedAssociationsforUser = async (req, res) => {
+  const { _id } = req.params;
+  let associations = await associationModel.find({});
+  for (let i = 0; i < associations.length; i++) {
+    let {
+      associationName,
+      description,
+      expertName,
+      category,
+      country,
+      city,
+      expertImg,
+      coverImg,
+    } = associations[i];
+
+    let associationsExpertImg = fs.readFileSync(
+      __dirname.substring(0, __dirname.length - 8) +
+        "coverImgWithExpert\\" +
+        expertImg
+    );
+    let associationsCoverImg = fs.readFileSync(
+      __dirname.substring(0, __dirname.length - 8) +
+        "coverImgWithExpert\\" +
+        coverImg
+    );
+    associations[i] = {
+      associationName,
+      description,
+      expertName,
+      category: category[0],
+      country,
+      city,
+      associationsExpertImg,
+      associationsCoverImg,
+    };
+  }
+  res.json({ message: "success", associations });
 };
