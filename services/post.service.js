@@ -1,6 +1,7 @@
 const { postModel } = require("../models/post.model");
 const { orginizationModel } = require("../models/orginization.model");
 const fs = require("fs");
+const { model } = require("mongoose");
 
 module.exports.addPost = async (req, res) => {
   const { _id, description } = req.body;
@@ -52,4 +53,10 @@ module.exports.getChannelPosts = async (req, res) => {
   });
   posts = posts.reverse();
   res.json({ message: "success", posts });
+};
+
+module.exports.getTimelinePosts = (req, res) => {
+  const { _id } = req.params;
+
+  res.json({ message: "77897879" });
 };

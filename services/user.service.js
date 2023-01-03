@@ -75,14 +75,38 @@ module.exports.emailVerify = async (req, res) => {
 module.exports.logIn = async (req, res) => {
   const { emailAddress, password } = req.body;
   let user = await userModel.findOne({ emailAddress });
+  let org = await orginizationModel.findOne({
+    expertEmailAddress: emailAddress,
+  });
+  let association = await associationModel.findOne({
+    expertEmailAddress: emailAddress,
+  });
   if (user) {
     const match = await bcrypt.compare(password, user.password);
     if (match) {
       //let token = jwt.sign({userId:user._id,name:user.name,emailConfirm:user.emailConfirm},'alumni@nodeJS');
-      if (user.isAdmin) res.json({ message: "success admin", _id: user._id });
+      if (user.isAdmin)
+        res.json({ message: "success top admin", _id: user._id });
       else if (user.emailConfirm)
         res.json({ message: "success user", _id: user._id });
       else res.json({ message: "email verification needed" });
+    } else {
+      res.json({ message: "password incorrect" });
+    }
+  } else if (org) {
+    const match = await bcrypt.compare(password, org.password);
+    if (match) {
+      res.json({ message: "success channel admin", _id: org._id });
+    } else {
+      res.json({ message: "password incorrect" });
+    }
+  } else if (association) {
+    const match = await bcrypt.compare(password, association.password);
+    if (match) {
+      res.json({
+        message: "success membership admin",
+        _id: association._id,
+      });
     } else {
       res.json({ message: "password incorrect" });
     }
@@ -383,6 +407,8 @@ module.exports.getCV = async (req, res) => {
 
 //TEST | SENDING AND RECEIVING FILES
 const fs = require("fs");
+const { orginizationModel } = require("../models/orginization.model");
+const { associationModel } = require("../models/association.model");
 module.exports.getFileTest = async (req, res) => {
   let { _id } = req.params;
   let user = await userModel.findOne({ _id });
@@ -592,6 +618,26 @@ module.exports.getAllDocumentsNames = async (req, res) => {
 };
 
 //Get Document File
+module.exports.getDocumentFile = async (req, res) => {
+  const { _id, fileType } = req.body;
+  let user = await userModel.findOne({ _id });
+  let { documents } = user;
+  let filename = "";
+  if (fileType == "cv") {
+    filename = documents[0].cv;
+  } else if (fileType == "personalId") {
+    filename = documents[1].personalId;
+  } else if (fileType == "personalPassport") {
+    filename = documents[2].personalPassport;
+  } else if (fileType == "universityTranscript") {
+    filename = documents[3].universityTranscript;
+  }
+  res.sendFile(
+    __dirname.substring(0, __dirname.length - 8) + "documentFiles\\" + filename
+  );
+};
+
+//GET TIMELINE
 module.exports.getDocumentFile = async (req, res) => {
   const { _id, fileType } = req.body;
   let user = await userModel.findOne({ _id });

@@ -7,6 +7,7 @@ const {
   getChannelforUser,
   followChannelforUser,
   getRecommendedChannelforUser,
+  unfollowChannelforUser,
 } = require("../services/orginization.service");
 const {
   uploadcoverImgMiddleware,
@@ -31,6 +32,8 @@ router.put(
 
 //Follow Channel for User
 router.put("/api/orginization/followChannel", followChannelforUser);
+//Unfollow Channel for User
+router.put("/api/orginization/unfollowChannel", unfollowChannelforUser);
 //get User Followed Channels for User
 router.get("/api/orginization/getUserChannels/:_id", getChannelforUser);
 //get User Recommended Channels for User

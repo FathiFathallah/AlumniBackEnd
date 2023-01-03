@@ -165,6 +165,15 @@ module.exports.followChannelforUser = async (req, res) => {
   res.json({ message: "success" });
 };
 
+module.exports.unfollowChannelforUser = async (req, res) => {
+  const { _id, channelId } = req.body;
+  await orginizationModel.findOneAndUpdate(
+    { _id: channelId },
+    { $pull: { followers: _id } }
+  );
+  res.json({ message: "success" });
+};
+
 module.exports.getChannelforUser = async (req, res) => {
   const { _id } = req.params;
   let org = await orginizationModel.find({ followers: { $in: _id } });

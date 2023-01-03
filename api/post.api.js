@@ -2,7 +2,11 @@ const {
   uploadMediaFileMiddleware,
 } = require("../middlewware/upload/post.upload");
 const { addPostAssociation } = require("../services/association.service");
-const { addPost, getChannelPosts } = require("../services/post.service");
+const {
+  addPost,
+  getChannelPosts,
+  getTimelinePosts,
+} = require("../services/post.service");
 
 const router = require("express").Router();
 
@@ -20,5 +24,8 @@ router.put(
   uploadMediaFileMiddleware,
   addPostAssociation
 );
+
+//GET TIMELINE
+router.get("/api/user/getTimelinePosts/:_id", getTimelinePosts);
 
 module.exports = router;
