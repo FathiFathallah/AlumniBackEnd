@@ -14,6 +14,7 @@ app.use(require("./api/post.api"));
 app.use(require("./api/orginization.api"));
 app.use(require("./api/job.api"));
 app.use(require("./api/association.api"));
+app.use(require("./api/university.api"));
 app.all("*", (req, res) => res.json({ message: "page not found 404" }));
 //Creating the Server
 const port = 5000;
