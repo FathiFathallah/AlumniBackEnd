@@ -81,6 +81,9 @@ module.exports.logIn = async (req, res) => {
   let association = await associationModel.findOne({
     expertEmailAddress: emailAddress,
   });
+  let university = await universityModel.findOne({
+    expertEmailAddress: emailAddress,
+  });
   if (user) {
     const match = await bcrypt.compare(password, user.password);
     if (match) {
@@ -106,6 +109,16 @@ module.exports.logIn = async (req, res) => {
       res.json({
         message: "success membership admin",
         _id: association._id,
+      });
+    } else {
+      res.json({ message: "password incorrect" });
+    }
+  } else if (university) {
+    const match = await bcrypt.compare(password, university.password);
+    if (match) {
+      res.json({
+        message: "success university admin",
+        _id: university._id,
       });
     } else {
       res.json({ message: "password incorrect" });
@@ -409,6 +422,7 @@ module.exports.getCV = async (req, res) => {
 const fs = require("fs");
 const { orginizationModel } = require("../models/orginization.model");
 const { associationModel } = require("../models/association.model");
+const { universityModel } = require("../models/university.model");
 module.exports.getFileTest = async (req, res) => {
   let { _id } = req.params;
   let user = await userModel.findOne({ _id });
