@@ -26,3 +26,8 @@ module.exports.addNewEvent = async (req, res) => {
   });
   res.json({ message: `success` });
 };
+
+module.exports.getEvents = async (req, res) => {
+  let events = await eventModel.find({});
+  res.json({ message: `success`, events });
+};
