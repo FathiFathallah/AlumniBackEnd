@@ -7,10 +7,11 @@ const scolarshipSchema = mongoose.Schema(
       required: true,
     },
     scolarshipName: String,
-    postDate: String,
-    deadline: String,
+    postDate: Date,
+    deadline: Date,
     scholarshipDescription: String,
     scholarshipOverview: String,
+    scholarshipMissions: Array,
     applicants: Array,
   },
   {
