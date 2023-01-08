@@ -1,6 +1,7 @@
 const { orginizationModel } = require("../models/orginization.model");
 const bcrypt = require("bcrypt");
 const fs = require("fs");
+const { userModel } = require("../models/user.model");
 
 module.exports.signUp = async (req, res) => {
   const {
@@ -162,6 +163,10 @@ module.exports.followChannelforUser = async (req, res) => {
     { _id: channelId },
     { $addToSet: { followers: _id } }
   );
+  await userModel.findOneAndUpdate(
+    { _id },
+    { $addToSet: { followedChannelsMemberships: channelId } }
+  );
   res.json({ message: "success" });
 };
 
@@ -170,6 +175,10 @@ module.exports.unfollowChannelforUser = async (req, res) => {
   await orginizationModel.findOneAndUpdate(
     { _id: channelId },
     { $pull: { followers: _id } }
+  );
+  await userModel.findOneAndUpdate(
+    { _id },
+    { $pull: { followedChannelsMemberships: channelId } }
   );
   res.json({ message: "success" });
 };

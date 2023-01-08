@@ -47,6 +47,7 @@ const userSchema = mongoose.Schema(
     experience: Array,
     documents: Array,
     positions: Array,
+    followedChannelsMemberships: Array,
     password: String,
     emailConfirm: {
       type: Boolean,

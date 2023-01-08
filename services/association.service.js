@@ -2,6 +2,7 @@ const { associationModel } = require("../models/association.model");
 const bcrypt = require("bcrypt");
 const { postModel } = require("../models/post.model");
 const fs = require("fs");
+const { userModel } = require("../models/user.model");
 
 module.exports.signUp = async (req, res) => {
   const {
@@ -68,6 +69,10 @@ module.exports.memberUser = async (req, res) => {
   await associationModel.findOneAndUpdate(
     { _id: associationId },
     { $addToSet: { members: _id } }
+  );
+  await userModel.findOneAndUpdate(
+    { _id },
+    { $addToSet: { followedChannelsMemberships: associationId } }
   );
   res.json({ message: "success" });
 };

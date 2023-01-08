@@ -31,3 +31,9 @@ module.exports.getEvents = async (req, res) => {
   let events = await eventModel.find({});
   res.json({ message: `success`, events });
 };
+
+module.exports.getChannelEvents = async (req, res) => {
+  const { _id } = req.params;
+  let events = await eventModel.find({ orginizationId: _id });
+  res.json({ message: `success`, events });
+};

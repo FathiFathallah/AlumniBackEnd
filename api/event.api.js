@@ -1,7 +1,11 @@
 const {
   uploadeventThumbnailMiddleware,
 } = require("../middlewware/upload/event.upload");
-const { addNewEvent, getEvents } = require("../services/event.service");
+const {
+  addNewEvent,
+  getEvents,
+  getChannelEvents,
+} = require("../services/event.service");
 
 const router = require("express").Router();
 
@@ -12,5 +16,6 @@ router.put(
 );
 
 router.get("/api/event/getEvents/", getEvents);
+router.get("/api/event/getChannelEvents/:_id", getChannelEvents);
 
 module.exports = router;
