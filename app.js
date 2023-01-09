@@ -22,5 +22,5 @@ app.get("/", (req, res) => {
 });
 // app.all("*", (req, res) => res.json({ message: "page not found 404" }));
 //Creating the Server
-const port = 5000;
+const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server is running at port := ${port}!`));
