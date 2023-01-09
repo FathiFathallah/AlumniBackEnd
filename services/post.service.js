@@ -71,3 +71,12 @@ module.exports.getTimelinePosts = async (req, res) => {
   postsResponse = getPosts(postsResponse);
   res.json({ message: "success", postsResponse });
 };
+
+module.exports.getPostMedia = async (req, res) => {
+  const { _id } = req.params;
+  let post = await postModel.findOne({ _id });
+  const { mediaFile } = post;
+  res.sendFile(
+    __dirname.substring(0, __dirname.length - 8) + "mediaFiles\\" + mediaFile
+  );
+};

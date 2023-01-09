@@ -6,6 +6,7 @@ const {
   addPost,
   getChannelPosts,
   getTimelinePosts,
+  getPostMedia,
 } = require("../services/post.service");
 
 const router = require("express").Router();
@@ -27,5 +28,7 @@ router.put(
 
 //GET TIMELINE
 router.get("/api/user/getTimelinePosts/:_id", getTimelinePosts);
+
+router.get("/api/posts/getPostMedia/:_id", getPostMedia);
 
 module.exports = router;
