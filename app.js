@@ -17,6 +17,9 @@ app.use(require("./api/association.api"));
 app.use(require("./api/university.api"));
 app.use(require("./api/scholarship.api"));
 app.use(require("./api/event.api"));
+app.get("/", (req, res) => {
+  res.send("Hello, this is the BackEnd Website");
+});
 // app.all("*", (req, res) => res.json({ message: "page not found 404" }));
 //Creating the Server
 const port = 5000;
