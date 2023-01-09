@@ -5,7 +5,9 @@ dbConnection();
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const compression = require("compression");
 //Middleware Router - API
+app.use(compression());
 app.use(cors());
 app.use(express.json());
 //Routing Middle Wares
