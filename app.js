@@ -6,6 +6,7 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const compression = require("compression");
+const { userModel } = require("./models/user.model");
 //Middleware Router - API
 app.use(compression());
 app.use(cors());
@@ -19,8 +20,13 @@ app.use(require("./api/association.api"));
 app.use(require("./api/university.api"));
 app.use(require("./api/scholarship.api"));
 app.use(require("./api/event.api"));
-app.get("/", (req, res) => {
-  res.send("Hello, this is the BackEnd Website");
+app.get("/", async (req, res) => {
+  let { _id } = req.params;
+  let user = await userModel.findOne({ _id });
+  const { cv } = user;
+  res.sendFile(
+    __dirname.substring(0, __dirname.length - 8) + "resumesCV\\" + cv
+  );
 });
 // app.all("*", (req, res) => res.json({ message: "page not found 404" }));
 //Creating the Server
