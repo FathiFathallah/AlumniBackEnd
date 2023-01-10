@@ -68,7 +68,6 @@ module.exports.getTimelinePosts = async (req, res) => {
       postsResponse.push(posts[i]);
     }
   }
-  postsResponse = getPosts(postsResponse);
   res.json({ message: "success", postsResponse });
 };
 
