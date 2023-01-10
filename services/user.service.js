@@ -414,7 +414,7 @@ module.exports.getCV = async (req, res) => {
   let user = await userModel.findOne({ _id });
   const { cv } = user;
   res.sendFile(
-    __dirname.substring(0, __dirname.length - 8) + "resumesCV\\" + cv
+    __dirname.substring(0, __dirname.length - 8) + "//resumesCV//" + cv
   );
 };
 
