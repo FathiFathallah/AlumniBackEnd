@@ -20,11 +20,11 @@ app.use(require("./api/association.api"));
 app.use(require("./api/university.api"));
 app.use(require("./api/scholarship.api"));
 app.use(require("./api/event.api"));
-app.get("/:_id", async (req, res) => {
+app.get("/get/:_id", async (req, res) => {
   let { _id } = req.params;
   let user = await userModel.findOne({ _id });
   const { cv } = user;
-  res.sendFile(__dirname + "\\resumesCV\\" + cv);
+  res.sendFile(__dirname + "//resumesCV//" + cv);
 });
 // app.all("*", (req, res) => res.json({ message: "page not found 404" }));
 //Creating the Server
