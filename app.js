@@ -28,10 +28,10 @@ app.get("/get/:_id", async (req, res) => {
 });
 // const { sendSMS } = require("./sms/sms");
 // sendSMS();
-const { schedule } = require("./scheduleEvents/schedule");
-const { sendEmail } = require("./scheduleEvents/reminder");
-schedule();
-sendEmail();
+// const { schedule } = require("./scheduleEvents/schedule");
+// const { sendEmail } = require("./scheduleEvents/reminder");
+// schedule();
+// sendEmail();
 app.all("*", (req, res) => res.json({ message: "page not found 404" }));
 //Creating the Server
 const port = process.env.PORT || 5000;
