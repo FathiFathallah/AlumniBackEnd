@@ -79,12 +79,12 @@ module.exports.getOrgInformation = async (req, res) => {
   };
   let channelExpertImg = fs.readFileSync(
     __dirname.substring(0, __dirname.length - 8) +
-      "coverImgWithExpert\\" +
+      "//coverImgWithExpert//" +
       expertImg
   );
   let channelCoverImg = fs.readFileSync(
     __dirname.substring(0, __dirname.length - 8) +
-      "coverImgWithExpert\\" +
+      "//coverImgWithExpert//" +
       coverImg
   );
   res.json({ message: "success", orgInfo, channelExpertImg, channelCoverImg });
@@ -202,12 +202,12 @@ module.exports.getChannelforUser = async (req, res) => {
 
     let channelExpertImg = fs.readFileSync(
       __dirname.substring(0, __dirname.length - 8) +
-        "coverImgWithExpert\\" +
+        "//coverImgWithExpert//" +
         expertImg
     );
     let channelCoverImg = fs.readFileSync(
       __dirname.substring(0, __dirname.length - 8) +
-        "coverImgWithExpert\\" +
+        "//coverImgWithExpert//" +
         coverImg
     );
     org[i] = {
@@ -243,12 +243,12 @@ module.exports.getRecommendedChannelforUser = async (req, res) => {
     } = org[i];
     let channelExpertImg = fs.readFileSync(
       __dirname.substring(0, __dirname.length - 8) +
-        "coverImgWithExpert\\" +
+        "//coverImgWithExpert//" +
         expertImg
     );
     let channelCoverImg = fs.readFileSync(
       __dirname.substring(0, __dirname.length - 8) +
-        "coverImgWithExpert\\" +
+        "//coverImgWithExpert//" +
         coverImg
     );
     org[i] = {

@@ -95,12 +95,12 @@ module.exports.getAssociationsforUser = async (req, res) => {
 
     let associationsExpertImg = fs.readFileSync(
       __dirname.substring(0, __dirname.length - 8) +
-        "coverImgWithExpert\\" +
+        "//coverImgWithExpert//" +
         expertImg
     );
     let associationsCoverImg = fs.readFileSync(
       __dirname.substring(0, __dirname.length - 8) +
-        "coverImgWithExpert\\" +
+        "//coverImgWithExpert//" +
         coverImg
     );
     associations[i] = {
@@ -134,12 +134,12 @@ module.exports.getRecommendedAssociationsforUser = async (req, res) => {
 
     let associationsExpertImg = fs.readFileSync(
       __dirname.substring(0, __dirname.length - 8) +
-        "coverImgWithExpert\\" +
+        "//coverImgWithExpert//" +
         expertImg
     );
     let associationsCoverImg = fs.readFileSync(
       __dirname.substring(0, __dirname.length - 8) +
-        "coverImgWithExpert\\" +
+        "//coverImgWithExpert//" +
         coverImg
     );
     associations[i] = {

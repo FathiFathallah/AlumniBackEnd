@@ -370,7 +370,7 @@ module.exports.getExperienceFile = async (req, res) => {
   });
   res.sendFile(
     __dirname.substring(0, __dirname.length - 8) +
-      "experiencesFiles\\" +
+      "//experiencesFiles//" +
       result[0].fileName
   );
 };
@@ -403,7 +403,7 @@ module.exports.getProfilePicture = async (req, res) => {
   const { profilePic } = user;
   res.sendFile(
     __dirname.substring(0, __dirname.length - 8) +
-      "profilePictures\\" +
+      "//profilePictures//" +
       profilePic
   );
 };
@@ -429,7 +429,7 @@ module.exports.getFileTest = async (req, res) => {
   //res.sendFile((__dirname.substring(0, __dirname.length-8) + 'profilePictures\\1668534880867-284233604-0ab268c8a5918132e1bccb7291a7c351.jpg'));
   let dataFile = fs.readFileSync(
     __dirname.substring(0, __dirname.length - 8) +
-      "profilePictures\\" +
+      "//profilePictures//" +
       user.profilePic
   );
   let a = path.extname(user.profilePic).toLowerCase();
@@ -647,7 +647,9 @@ module.exports.getDocumentFile = async (req, res) => {
     filename = documents[3].universityTranscript;
   }
   res.sendFile(
-    __dirname.substring(0, __dirname.length - 8) + "documentFiles\\" + filename
+    __dirname.substring(0, __dirname.length - 8) +
+      "//documentFiles//" +
+      filename
   );
 };
 
@@ -667,6 +669,8 @@ module.exports.getDocumentFile = async (req, res) => {
     filename = documents[3].universityTranscript;
   }
   res.sendFile(
-    __dirname.substring(0, __dirname.length - 8) + "documentFiles\\" + filename
+    __dirname.substring(0, __dirname.length - 8) +
+      "//documentFiles//" +
+      filename
   );
 };

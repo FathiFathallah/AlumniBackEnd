@@ -18,7 +18,7 @@ module.exports.getPosts = (posts) => {
     delete element.updatedAt;
     let mediaFile = fs.readFileSync(
       __dirname.substring(0, __dirname.length - 8) +
-        "mediaFiles\\" +
+        "//mediaFiles//" +
         element.mediaFile
     );
     element.mediaFile = mediaFile;

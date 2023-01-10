@@ -77,6 +77,6 @@ module.exports.getPostMedia = async (req, res) => {
   let post = await postModel.findOne({ _id });
   const { mediaFile } = post;
   res.sendFile(
-    __dirname.substring(0, __dirname.length - 8) + "mediaFiles\\" + mediaFile
+    __dirname.substring(0, __dirname.length - 8) + "//mediaFiles//" + mediaFile
   );
 };
