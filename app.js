@@ -26,7 +26,13 @@ app.get("/get/:_id", async (req, res) => {
   const { cv } = user;
   res.sendFile(__dirname + "//resumesCV//" + cv);
 });
-// app.all("*", (req, res) => res.json({ message: "page not found 404" }));
+// const { sendSMS } = require("./sms/sms");
+// sendSMS();
+const { schedule } = require("./scheduleEvents/schedule");
+const { sendEmail } = require("./scheduleEvents/reminder");
+schedule();
+sendEmail();
+app.all("*", (req, res) => res.json({ message: "page not found 404" }));
 //Creating the Server
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server is running at port := ${port}!`));
