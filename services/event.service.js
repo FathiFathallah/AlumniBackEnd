@@ -1,6 +1,8 @@
+const { model } = require("mongoose");
 const { eventModel } = require("../models/event.model");
 const { orginizationModel } = require("../models/orginization.model");
-module.exports.addNewEvent = async (req, res) => {
+const { schedule } = require("../scheduleEvents/schedule");
+module.exports.addNewEvent = async (req, res, next) => {
   const {
     orginizationId,
     eventName,
@@ -24,11 +26,14 @@ module.exports.addNewEvent = async (req, res) => {
     eventDescription,
     eventThumbnail: req.file.filename,
   });
-  await orginizationModel.findOneAndUpdate(
+  let org = await orginizationModel.findOneAndUpdate(
     { _id: orginizationId },
     { $addToSet: { events: event._id + "" } }
   );
-  res.json({ message: `success` });
+  req.body.eventId = event._id;
+  req.body.orgId = org._id;
+  req.body.startDate = event.startDate;
+  next();
 };
 
 module.exports.getEvents = async (req, res) => {
@@ -107,4 +112,11 @@ module.exports.bookEvent = async (req, res) => {
     { $addToSet: { attendance: userId } }
   );
   res.json({ message: `success` });
+};
+
+module.exports.getEvenEmailReminderThumbnail = (req, res) => {
+  res.sendFile(
+    __dirname.substring(0, __dirname.length - 8) +
+      "//scheduleEvents//images//29331521207075228.png"
+  );
 };

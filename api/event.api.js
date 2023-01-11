@@ -1,6 +1,8 @@
 const {
   uploadeventThumbnailMiddleware,
 } = require("../middlewware/upload/event.upload");
+const { schedule } = require("../scheduleEvents/schedule");
+const { sendReminder } = require("../scheduleEvents/sendReminder");
 const {
   addNewEvent,
   getEvents,
@@ -11,6 +13,7 @@ const {
   getUpcomingEvents,
   getEventThumbnail,
   bookEvent,
+  getEvenEmailReminderThumbnail,
 } = require("../services/event.service");
 
 const router = require("express").Router();
@@ -18,7 +21,9 @@ const router = require("express").Router();
 router.put(
   "/api/event/addNewEvent",
   uploadeventThumbnailMiddleware,
-  addNewEvent
+  addNewEvent,
+  schedule,
+  sendReminder
 );
 
 router.get("/api/event/getEvents/", getEvents);
@@ -39,5 +44,6 @@ router.get("/api/event/getEventThumbnail/:_id", getEventThumbnail);
 
 //////BOOKING FOR EVENT
 router.put("/api/eventUser/userBookingEvent", bookEvent);
+router.get("/api/getEvenEmailReminderThumbnail", getEvenEmailReminderThumbnail);
 
 module.exports = router;
