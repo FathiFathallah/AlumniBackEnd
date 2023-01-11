@@ -8,6 +8,8 @@ const {
   followChannelforUser,
   getRecommendedChannelforUser,
   unfollowChannelforUser,
+  getOrginizationCoverPic,
+  getOrginizationProfilePic,
 } = require("../services/orginization.service");
 const {
   uploadcoverImgMiddleware,
@@ -40,6 +42,16 @@ router.get("/api/orginization/getUserChannels/:_id", getChannelforUser);
 router.get(
   "/api/orginization/getUserRecommendedChannels/:_id",
   getRecommendedChannelforUser
+);
+
+router.get(
+  "/api/orginization/getOrginizationCoverPic/:_id",
+  getOrginizationCoverPic
+);
+
+router.get(
+  "/api/orginization/getOrginizationProfilePic/:_id",
+  getOrginizationProfilePic
 );
 
 module.exports = router;

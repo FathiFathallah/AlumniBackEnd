@@ -3,7 +3,6 @@ const fs = require("fs");
 module.exports.getPosts = (posts) => {
   let postsResponse = posts.map((element) => {
     element = element.toJSON();
-    delete element.orginizationId;
     delete element.__v;
     delete element.createdAt;
     element.likes = element.likes.length;
@@ -16,12 +15,6 @@ module.exports.getPosts = (posts) => {
       ", " +
       date.toLocaleDateString().replace(/\//g, ".");
     delete element.updatedAt;
-    let mediaFile = fs.readFileSync(
-      __dirname.substring(0, __dirname.length - 8) +
-        "//mediaFiles//" +
-        element.mediaFile
-    );
-    element.mediaFile = mediaFile;
     return element;
   });
   postsResponse = postsResponse.reverse();

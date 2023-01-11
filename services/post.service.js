@@ -3,6 +3,7 @@ const { orginizationModel } = require("../models/orginization.model");
 const fs = require("fs");
 const { userModel } = require("../models/user.model");
 const { getPosts } = require("../function/getPosts");
+const path = require("path");
 
 module.exports.addPost = async (req, res) => {
   const { _id, description } = req.body;
@@ -65,10 +66,30 @@ module.exports.getTimelinePosts = async (req, res) => {
   let posts = await postModel.find({});
   for (let i = 0; i < posts.length; i++) {
     if (followedChannelsMemberships.includes(posts[i].orginizationId)) {
+      let a = path.extname(posts[i].mediaFile).toLowerCase();
+      let type;
+      if (
+        a == ".jpeg" ||
+        a == ".jpg" ||
+        a == ".png" ||
+        a == ".tiff" ||
+        a == ".gif"
+      ) {
+        type = "img";
+      } else if (
+        a == ".mp4" ||
+        a == ".m4a" ||
+        a == ".f4v" ||
+        a == ".m4b" ||
+        a == ".mov"
+      ) {
+        type = "video";
+      }
+      posts[i].type = type;
       postsResponse.push(posts[i]);
     }
   }
-  res.json({ message: "success", postsResponse });
+  res.json({ message: "success", postsResponse: getPosts(postsResponse) });
 };
 
 module.exports.getPostMedia = async (req, res) => {
@@ -78,4 +99,55 @@ module.exports.getPostMedia = async (req, res) => {
   res.sendFile(
     __dirname.substring(0, __dirname.length - 8) + "//mediaFiles//" + mediaFile
   );
+};
+
+//GET POST INFO
+module.exports.getPostLikes = async (req, res) => {
+  const { _id } = req.params;
+  let post = await postModel.findOne({ _id });
+  res.json({ message: "success", likes: post.likes });
+};
+
+module.exports.getPostComments = async (req, res) => {
+  const { _id } = req.params;
+  let post = await postModel.findOne({ _id });
+  post.comments.map((ele, index) => {
+    return (ele.commentId = index);
+  });
+  res.json({ message: "success", comments: post.comments });
+};
+
+//INTERACTION
+module.exports.addLike = async (req, res) => {
+  const { _id, postId } = req.body;
+  await postModel.findOneAndUpdate(
+    { _id: postId },
+    { $addToSet: { likes: _id } }
+  );
+  res.json({ message: "success" });
+};
+
+module.exports.removeLike = async (req, res) => {
+  const { _id, postId } = req.body;
+  await postModel.findOneAndUpdate({ _id: postId }, { $pull: { likes: _id } });
+  res.json({ message: "success" });
+};
+
+module.exports.addComment = async (req, res) => {
+  const { _id, postId, comment } = req.body;
+  await postModel.findOneAndUpdate(
+    { _id: postId },
+    { $push: { comments: { _id, comment } } }
+  );
+  res.json({ message: "success" });
+};
+
+module.exports.deleteComment = async (req, res) => {
+  const { postId, commentId } = req.body;
+  let post = await postModel.findOne({ _id: postId });
+  await postModel.findOneAndUpdate(
+    { _id: postId },
+    { $pull: { comments: post.comments[commentId] } }
+  );
+  res.json({ message: "success" });
 };

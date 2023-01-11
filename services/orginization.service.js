@@ -266,3 +266,26 @@ module.exports.getRecommendedChannelforUser = async (req, res) => {
   }
   res.json({ message: "success", org });
 };
+
+//PROFILE PICS
+module.exports.getOrginizationCoverPic = async (req, res) => {
+  const { _id } = req.params;
+  let org = await orginizationModel.findOne({ _id });
+  const { coverImg } = org;
+  res.sendFile(
+    __dirname.substring(0, __dirname.length - 8) +
+      "//coverImgWithExpert//" +
+      coverImg
+  );
+};
+
+module.exports.getOrginizationProfilePic = async (req, res) => {
+  const { _id } = req.params;
+  let org = await orginizationModel.findOne({ _id });
+  const { expertImg } = org;
+  res.sendFile(
+    __dirname.substring(0, __dirname.length - 8) +
+      "//coverImgWithExpert//" +
+      expertImg
+  );
+};

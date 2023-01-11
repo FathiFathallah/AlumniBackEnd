@@ -7,6 +7,12 @@ const {
   getChannelPosts,
   getTimelinePosts,
   getPostMedia,
+  addLike,
+  addComment,
+  removeLike,
+  deleteComment,
+  getPostLikes,
+  getPostComments,
 } = require("../services/post.service");
 
 const router = require("express").Router();
@@ -28,7 +34,16 @@ router.put(
 
 //GET TIMELINE
 router.get("/api/user/getTimelinePosts/:_id", getTimelinePosts);
-
 router.get("/api/posts/getPostMedia/:_id", getPostMedia);
+
+//get information Post
+router.get("/api/posts/getPostLikes/:_id", getPostLikes);
+router.get("/api/posts/getPostComments/:_id", getPostComments);
+
+//Interactiong with TimeLine
+router.put("/api/user/addLike", addLike);
+router.delete("/api/user/removeLike", removeLike);
+router.put("/api/posts/addComment", addComment);
+router.delete("/api/posts/deleteComment", deleteComment);
 
 module.exports = router;
