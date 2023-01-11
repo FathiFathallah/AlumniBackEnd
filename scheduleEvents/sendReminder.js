@@ -10,8 +10,8 @@ module.exports.sendReminder = (req, res) => {
   const { eventId, orgId, reminderDate } = req.body;
 
   schedule.scheduleJob(reminderDate, async () => {
-    console.log(eventId, orgId, reminderDate);
     let event = await eventModel.findOne({ _id: eventId });
+
     let org = await orginizationModel.findOne({ _id: orgId });
     const {
       eventName,

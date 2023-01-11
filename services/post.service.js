@@ -103,9 +103,15 @@ module.exports.getPostMedia = async (req, res) => {
 
 //GET POST INFO
 module.exports.getPostLikes = async (req, res) => {
+  let postLikes = [];
   const { _id } = req.params;
   let post = await postModel.findOne({ _id });
-  res.json({ message: "success", likes: post.likes });
+  for (let i = 0; i < post.likes.length; i++) {
+    let user = await userModel.findOne({ _id: post.likes[i] });
+    const { firstName, lastName, studyField } = user;
+    postLikes.push({ _id: user._id, firstName, lastName, studyField });
+  }
+  res.json({ message: "success", postLikes });
 };
 
 module.exports.getPostComments = async (req, res) => {
