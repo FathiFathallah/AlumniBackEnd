@@ -115,12 +115,22 @@ module.exports.getPostLikes = async (req, res) => {
 };
 
 module.exports.getPostComments = async (req, res) => {
+  let postComments = [];
   const { _id } = req.params;
   let post = await postModel.findOne({ _id });
-  post.comments.map((ele, index) => {
-    return (ele.commentId = index);
-  });
-  res.json({ message: "success", comments: post.comments });
+  for (let i = 0; i < post.comments.length; i++) {
+    let user = await userModel.findOne({ _id: post.comments[i]._id });
+    const { firstName, lastName, studyField } = user;
+    postComments.push({
+      commentId: i,
+      comment: post.comments[i].comment,
+      _id: user._id,
+      firstName,
+      lastName,
+      studyField,
+    });
+  }
+  res.json({ message: "success", comments: postComments });
 };
 
 //INTERACTION
