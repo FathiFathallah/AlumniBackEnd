@@ -60,7 +60,7 @@ router.get("/getProfilePicture/:_id", getProfilePicture);
 router.get("/getCV/:_id", getCV);
 router.get("/accountInfo/:_id", getAccountInfo);
 router.get("/experience/:_id", getExperience);
-router.post("/experienceFile", getExperienceFile);
+router.get("/experienceFile/:_id/:experienceId", getExperienceFile);
 router.get("/getEducation/:_id", getEducation);
 router.get("/getPositions/:_id", getPositions);
 router.get("/getSkills/:_id", getSkills);

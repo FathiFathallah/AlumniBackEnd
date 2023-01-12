@@ -363,7 +363,8 @@ module.exports.getExperience = async (req, res) => {
 
 //Get Experinece File
 module.exports.getExperienceFile = async (req, res) => {
-  let { _id, experienceId } = req.body;
+  const { _id, experienceId } = req.params;
+  console.log({ _id, experienceId });
   let user = await userModel.findOne({ _id });
   const result = user.experience.filter(function (el) {
     return el.experienceId == experienceId;
