@@ -67,7 +67,7 @@ module.exports.getTimelinePosts = async (req, res) => {
   for (let i = 0; i < posts.length; i++) {
     if (followedChannelsMemberships.includes(posts[i].orginizationId)) {
       let a = path.extname(posts[i].mediaFile).toLowerCase();
-      let type;
+      let mediaType;
       if (
         a == ".jpeg" ||
         a == ".jpg" ||
@@ -75,7 +75,7 @@ module.exports.getTimelinePosts = async (req, res) => {
         a == ".tiff" ||
         a == ".gif"
       ) {
-        type = "img";
+        mediaType = "img";
       } else if (
         a == ".mp4" ||
         a == ".m4a" ||
@@ -83,10 +83,13 @@ module.exports.getTimelinePosts = async (req, res) => {
         a == ".m4b" ||
         a == ".mov"
       ) {
-        type = "video";
+        mediaType = "video";
       }
-      posts[i].type = type;
-      postsResponse.push(posts[i]);
+      postsResponse.push({
+        post: posts[i],
+        mediaType,
+        liked: posts[i].likes.includes(_id),
+      });
     }
   }
   res.json({ message: "success", postsResponse: getPosts(postsResponse) });
