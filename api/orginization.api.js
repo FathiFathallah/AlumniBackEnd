@@ -10,6 +10,7 @@ const {
   unfollowChannelforUser,
   getOrginizationCoverPic,
   getOrginizationProfilePic,
+  getAllOrginizations,
 } = require("../services/orginization.service");
 const {
   uploadcoverImgMiddleware,
@@ -53,5 +54,7 @@ router.get(
   "/api/orginization/getOrginizationProfilePic/:_id",
   getOrginizationProfilePic
 );
+
+router.get("/api/orginization/getAllOrginizations", getAllOrginizations);
 
 module.exports = router;

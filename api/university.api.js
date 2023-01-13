@@ -1,7 +1,10 @@
 const {
   uniUploadCoverImgMiddleware,
 } = require("../middlewware/upload/university.upload");
-const { signUpUniversities } = require("../services/university.service");
+const {
+  signUpUniversities,
+  getAllUniversities,
+} = require("../services/university.service");
 
 const router = require("express").Router();
 
@@ -11,4 +14,5 @@ router.post(
   signUpUniversities
 );
 
+router.get("/api/university/getAllUniversities", getAllUniversities);
 module.exports = router;

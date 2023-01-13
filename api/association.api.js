@@ -6,6 +6,9 @@ const {
   memberUser,
   getAssociationsforUser,
   getRecommendedAssociationsforUser,
+  getAssociationCoverPic,
+  getAssociationProfilePic,
+  getAllAssociations,
 } = require("../services/association.service");
 
 const router = require("express").Router();
@@ -21,5 +24,17 @@ router.get(
   "/api/association/getUserRecommendedMemberships/:_id",
   getRecommendedAssociationsforUser
 );
+
+router.get(
+  "/api/association/getAssociationCoverPic/:_id",
+  getAssociationCoverPic
+);
+
+router.get(
+  "/api/association/getAssociationProfilePic/:_id",
+  getAssociationProfilePic
+);
+
+router.get("/api/association/getAllAssociations", getAllAssociations);
 
 module.exports = router;

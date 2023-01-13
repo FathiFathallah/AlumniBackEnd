@@ -14,6 +14,7 @@ const {
   getEventThumbnail,
   bookEvent,
   getEvenEmailReminderThumbnail,
+  getUserEvents,
 } = require("../services/event.service");
 
 const router = require("express").Router();
@@ -45,5 +46,7 @@ router.get("/api/event/getEventThumbnail/:_id", getEventThumbnail);
 //////BOOKING FOR EVENT
 router.put("/api/eventUser/userBookingEvent", bookEvent);
 router.get("/api/getEvenEmailReminderThumbnail", getEvenEmailReminderThumbnail);
+
+router.get("/api/event/getUserEvents/:_id", getUserEvents);
 
 module.exports = router;

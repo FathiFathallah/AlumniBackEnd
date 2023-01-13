@@ -199,18 +199,9 @@ module.exports.getChannelforUser = async (req, res) => {
       expertImg,
       coverImg,
     } = org[i];
-
-    let channelExpertImg = fs.readFileSync(
-      __dirname.substring(0, __dirname.length - 8) +
-        "//coverImgWithExpert//" +
-        expertImg
-    );
-    let channelCoverImg = fs.readFileSync(
-      __dirname.substring(0, __dirname.length - 8) +
-        "//coverImgWithExpert//" +
-        coverImg
-    );
+    let orgId = org[i]._id;
     org[i] = {
+      orgId,
       orginizationName,
       channelName,
       description,
@@ -218,8 +209,8 @@ module.exports.getChannelforUser = async (req, res) => {
       category: category[0],
       country,
       city,
-      channelExpertImg,
-      channelCoverImg,
+      expertImg,
+      coverImg,
     };
   }
   res.json({ message: "success", org });
@@ -230,7 +221,6 @@ module.exports.getRecommendedChannelforUser = async (req, res) => {
   let org = await orginizationModel.find({});
   for (let i = 0; i < org.length; i++) {
     let {
-      _id,
       orginizationName,
       channelName,
       description,
@@ -241,18 +231,9 @@ module.exports.getRecommendedChannelforUser = async (req, res) => {
       expertImg,
       coverImg,
     } = org[i];
-    let channelExpertImg = fs.readFileSync(
-      __dirname.substring(0, __dirname.length - 8) +
-        "//coverImgWithExpert//" +
-        expertImg
-    );
-    let channelCoverImg = fs.readFileSync(
-      __dirname.substring(0, __dirname.length - 8) +
-        "//coverImgWithExpert//" +
-        coverImg
-    );
+    let orgId = org[i]._id;
     org[i] = {
-      _id,
+      orgId,
       orginizationName,
       channelName,
       description,
@@ -260,8 +241,7 @@ module.exports.getRecommendedChannelforUser = async (req, res) => {
       category: category[0],
       country,
       city,
-      channelExpertImg,
-      channelCoverImg,
+      expertImg,
     };
   }
   res.json({ message: "success", org });
@@ -288,4 +268,9 @@ module.exports.getOrginizationProfilePic = async (req, res) => {
       "//coverImgWithExpert//" +
       expertImg
   );
+};
+
+module.exports.getAllOrginizations = async (req, res) => {
+  let org = await orginizationModel.find({});
+  res.json({ message: `success`, org });
 };

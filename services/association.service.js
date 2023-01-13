@@ -92,26 +92,17 @@ module.exports.getAssociationsforUser = async (req, res) => {
       expertImg,
       coverImg,
     } = associations[i];
-
-    let associationsExpertImg = fs.readFileSync(
-      __dirname.substring(0, __dirname.length - 8) +
-        "//coverImgWithExpert//" +
-        expertImg
-    );
-    let associationsCoverImg = fs.readFileSync(
-      __dirname.substring(0, __dirname.length - 8) +
-        "//coverImgWithExpert//" +
-        coverImg
-    );
+    let associationId = associations[i]._id;
     associations[i] = {
+      associationId,
       associationName,
       description,
       expertName,
       category: category[0],
       country,
       city,
-      associationsExpertImg,
-      associationsCoverImg,
+      expertImg,
+      coverImg,
     };
   }
   res.json({ message: "success", associations });
@@ -131,17 +122,7 @@ module.exports.getRecommendedAssociationsforUser = async (req, res) => {
       expertImg,
       coverImg,
     } = associations[i];
-
-    let associationsExpertImg = fs.readFileSync(
-      __dirname.substring(0, __dirname.length - 8) +
-        "//coverImgWithExpert//" +
-        expertImg
-    );
-    let associationsCoverImg = fs.readFileSync(
-      __dirname.substring(0, __dirname.length - 8) +
-        "//coverImgWithExpert//" +
-        coverImg
-    );
+    let associationId = associations[i]._id;
     associations[i] = {
       associationName,
       description,
@@ -149,9 +130,36 @@ module.exports.getRecommendedAssociationsforUser = async (req, res) => {
       category: category[0],
       country,
       city,
-      associationsExpertImg,
-      associationsCoverImg,
+      expertImg,
+      coverImg,
     };
   }
   res.json({ message: "success", associations });
+};
+
+module.exports.getAssociationCoverPic = async (req, res) => {
+  const { _id } = req.params;
+  let association = await associationModel.findOne({ _id });
+  const { coverImg } = association;
+  res.sendFile(
+    __dirname.substring(0, __dirname.length - 8) +
+      "//associationCoverImgExpert//" +
+      coverImg
+  );
+};
+
+module.exports.getAssociationProfilePic = async (req, res) => {
+  const { _id } = req.params;
+  let association = await associationModel.findOne({ _id });
+  const { expertImg } = association;
+  res.sendFile(
+    __dirname.substring(0, __dirname.length - 8) +
+      "//associationCoverImgExpert//" +
+      expertImg
+  );
+};
+
+module.exports.getAllAssociations = async (req, res) => {
+  let association = await associationModel.find({});
+  res.json({ message: `success`, association });
 };

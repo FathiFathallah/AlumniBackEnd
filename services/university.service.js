@@ -35,3 +35,8 @@ module.exports.signUpUniversities = async (req, res) => {
     });
   }
 };
+
+module.exports.getAllUniversities = async (req, res) => {
+  let university = await universityModel.find({});
+  res.json({ message: `success`, university });
+};

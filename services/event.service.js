@@ -120,3 +120,11 @@ module.exports.getEvenEmailReminderThumbnail = (req, res) => {
       "//scheduleEvents//images//29331521207075228.png"
   );
 };
+
+module.exports.getUserEvents = async (req, res) => {
+  const { _id } = req.params;
+  let events = await eventModel.find({
+    attendance: { $in: _id },
+  });
+  res.json({ message: `success`, events });
+};
