@@ -251,23 +251,39 @@ module.exports.getRecommendedChannelforUser = async (req, res) => {
 module.exports.getOrginizationCoverPic = async (req, res) => {
   const { _id } = req.params;
   let org = await orginizationModel.findOne({ _id });
-  const { coverImg } = org;
-  res.sendFile(
-    __dirname.substring(0, __dirname.length - 8) +
-      "//coverImgWithExpert//" +
-      coverImg
-  );
+  if (org == null) {
+    res.sendFile(
+      __dirname.substring(0, __dirname.length - 8) +
+        "//coverImgWithExpert//" +
+        "1.jpg"
+    );
+  } else {
+    const { coverImg } = org;
+    res.sendFile(
+      __dirname.substring(0, __dirname.length - 8) +
+        "//coverImgWithExpert//" +
+        coverImg
+    );
+  }
 };
 
 module.exports.getOrginizationProfilePic = async (req, res) => {
   const { _id } = req.params;
   let org = await orginizationModel.findOne({ _id });
-  const { expertImg } = org;
-  res.sendFile(
-    __dirname.substring(0, __dirname.length - 8) +
-      "//coverImgWithExpert//" +
-      expertImg
-  );
+  if (org == null) {
+    res.sendFile(
+      __dirname.substring(0, __dirname.length - 8) +
+        "//coverImgWithExpert//" +
+        "1.jpg"
+    );
+  } else {
+    const { expertImg } = org;
+    res.sendFile(
+      __dirname.substring(0, __dirname.length - 8) +
+        "//coverImgWithExpert//" +
+        expertImg
+    );
+  }
 };
 
 module.exports.getAllOrginizations = async (req, res) => {

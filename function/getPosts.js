@@ -20,6 +20,5 @@ module.exports.getPosts = (posts) => {
     delete element.updatedAt;
     return element;
   });
-  postsResponse = postsResponse.reverse();
   return postsResponse;
 };

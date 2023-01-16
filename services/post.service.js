@@ -27,7 +27,36 @@ module.exports.addPost = async (req, res) => {
 
 module.exports.getChannelPosts = async (req, res) => {
   const { _id } = req.params;
-  let postsArray = await postModel.find({ orginizationId: _id });
+  let postsResponse = [];
+  let posts = await postModel
+    .find({ orginizationId: _id })
+    .sort({ updatedAt: -1 });
+  for (let i = 0; i < posts.length; i++) {
+    let a = path.extname(posts[i].mediaFile).toLowerCase();
+    let mediaType;
+    if (
+      a == ".jpeg" ||
+      a == ".jpg" ||
+      a == ".png" ||
+      a == ".tiff" ||
+      a == ".gif"
+    ) {
+      mediaType = "img";
+    } else if (
+      a == ".mp4" ||
+      a == ".m4a" ||
+      a == ".f4v" ||
+      a == ".m4b" ||
+      a == ".mov"
+    ) {
+      mediaType = "video";
+    }
+    postsResponse.push({
+      post: posts[i],
+      mediaType,
+      liked: posts[i].likes.includes(_id),
+    });
+  }
 
   // let posts = postsArray.map((element) => {
   //   element = element.toJSON();
@@ -55,15 +84,14 @@ module.exports.getChannelPosts = async (req, res) => {
   // });
   // posts = posts.reverse();
 
-  let postsResponse = getPosts(postsArray);
-  res.json({ message: "success", postsResponse });
+  res.json({ message: "success", posts: getPosts(postsResponse) });
 };
 
 module.exports.getTimelinePosts = async (req, res) => {
   let postsResponse = [];
   const { _id } = req.params;
   const { followedChannelsMemberships } = await userModel.findOne({ _id });
-  let posts = await postModel.find({});
+  let posts = await postModel.find({}).sort({ updatedAt: -1 });
   for (let i = 0; i < posts.length; i++) {
     if (followedChannelsMemberships.includes(posts[i].orginizationId)) {
       let a = path.extname(posts[i].mediaFile).toLowerCase();
@@ -92,6 +120,7 @@ module.exports.getTimelinePosts = async (req, res) => {
       });
     }
   }
+
   res.json({ message: "success", postsResponse: getPosts(postsResponse) });
 };
 
