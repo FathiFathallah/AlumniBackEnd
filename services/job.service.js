@@ -125,3 +125,27 @@ module.exports.getUserApplication = async (req, res) => {
 
   res.json({ message: "success" });
 };
+
+////////////////////////////
+module.exports.applyToJob = async (req, res) => {
+  const { _id, jobId } = req.body;
+  let user = await userModel.findOne({ _id });
+  if (user.cv === "") {
+    res.json({ message: "user cv needed" });
+  } else {
+    await jobModel.findOneAndUpdate(
+      { _id: jobId },
+      { $addToSet: { applicants: _id } }
+    );
+    res.json({ message: "success" });
+  }
+};
+
+module.exports.getUserJobs = async (req, res) => {
+  let currentDate = new Date();
+  currentDate = currentDate.toISOString();
+  let jobs = await jobModel.find({
+    deadline: { $gt: currentDate },
+  });
+  res.json({ message: "success", jobs });
+};
