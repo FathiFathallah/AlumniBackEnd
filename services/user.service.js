@@ -634,7 +634,7 @@ module.exports.getAllDocumentsNames = async (req, res) => {
 
 //Get Document File
 module.exports.getDocumentFile = async (req, res) => {
-  const { _id, fileType } = req.body;
+  const { _id, fileType } = req.params;
   let user = await userModel.findOne({ _id });
   let { documents } = user;
   let filename = "";
@@ -654,24 +654,24 @@ module.exports.getDocumentFile = async (req, res) => {
   );
 };
 
-//GET TIMELINE
-module.exports.getDocumentFile = async (req, res) => {
-  const { _id, fileType } = req.body;
-  let user = await userModel.findOne({ _id });
-  let { documents } = user;
-  let filename = "";
-  if (fileType == "cv") {
-    filename = documents[0].cv;
-  } else if (fileType == "personalId") {
-    filename = documents[1].personalId;
-  } else if (fileType == "personalPassport") {
-    filename = documents[2].personalPassport;
-  } else if (fileType == "universityTranscript") {
-    filename = documents[3].universityTranscript;
-  }
-  res.sendFile(
-    __dirname.substring(0, __dirname.length - 8) +
-      "//documentFiles//" +
-      filename
-  );
-};
+// //GET TIMELINE
+// module.exports.getDocumentFile = async (req, res) => {
+//   const { _id, fileType } = req.body;
+//   let user = await userModel.findOne({ _id });
+//   let { documents } = user;
+//   let filename = "";
+//   if (fileType == "cv") {
+//     filename = documents[0].cv;
+//   } else if (fileType == "personalId") {
+//     filename = documents[1].personalId;
+//   } else if (fileType == "personalPassport") {
+//     filename = documents[2].personalPassport;
+//   } else if (fileType == "universityTranscript") {
+//     filename = documents[3].universityTranscript;
+//   }
+//   res.sendFile(
+//     __dirname.substring(0, __dirname.length - 8) +
+//       "//documentFiles//" +
+//       filename
+//   );
+// };

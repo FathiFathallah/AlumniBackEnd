@@ -87,7 +87,7 @@ router.put(
   uploadDocuments
 );
 router.get("/getAllDocumentsNames/get/:_id", getAllDocumentsNames);
-router.post("/getDocumentFile/get", getDocumentFile);
+router.get("/getDocumentFile/get/:_id/:fileType", getDocumentFile);
 
 //Update and Change Requests + DELETE REQUESTS
 router.put(
