@@ -9,6 +9,7 @@ const {
   getUserApplication,
   applyToJob,
   getUserJobs,
+  jobFiltering,
 } = require("../services/job.service");
 
 const router = require("express").Router();
@@ -25,5 +26,8 @@ router.delete("/api/job/deleteJob/:_id", deleteJob);
 //API
 router.put("/api/job/applyToJob", applyToJob);
 router.get("/api/job/getAllJobsByDeadlineForUsers", getUserJobs);
+
+//FILTERING
+router.put("/api/job/jobFiltering", jobFiltering);
 
 module.exports = router;

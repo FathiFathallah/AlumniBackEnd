@@ -15,6 +15,7 @@ const {
   bookEvent,
   getEvenEmailReminderThumbnail,
   getUserEvents,
+  unbookEventforUser,
 } = require("../services/event.service");
 
 const router = require("express").Router();
@@ -48,5 +49,7 @@ router.put("/api/eventUser/userBookingEvent", bookEvent);
 router.get("/api/getEvenEmailReminderThumbnail", getEvenEmailReminderThumbnail);
 
 router.get("/api/event/getUserEvents/:_id", getUserEvents);
+
+router.delete("/api/event/unbookEventforUser", unbookEventforUser);
 
 module.exports = router;

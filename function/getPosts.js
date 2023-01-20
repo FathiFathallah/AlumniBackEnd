@@ -5,12 +5,12 @@ module.exports.getPosts = (posts) => {
     const { liked, mediaType } = element;
     element = element.post.toJSON();
     delete element.__v;
-    delete element.createdAt;
+    delete element.updatedAt;
     element.likes = element.likes.length;
     element.comments = element.comments.length;
     element.liked = liked;
     element.mediaType = mediaType;
-    let date = new Date(element.updatedAt);
+    let date = new Date(element.createdAt);
     let time = date.toLocaleTimeString();
     element.time =
       time.slice(0, 5) +

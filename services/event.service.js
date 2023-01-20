@@ -128,3 +128,9 @@ module.exports.getUserEvents = async (req, res) => {
   });
   res.json({ message: `success`, events });
 };
+
+module.exports.unbookEventforUser = async (req, res) => {
+  const { _id, eventId } = req.body;
+  await eventModel.updateOne({ _id: eventId }, { $pull: { attendance: _id } });
+  res.json({ message: `success` });
+};

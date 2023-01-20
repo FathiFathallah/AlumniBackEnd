@@ -217,34 +217,40 @@ module.exports.getChannelforUser = async (req, res) => {
 };
 
 module.exports.getRecommendedChannelforUser = async (req, res) => {
+  let recommendedChannels = [];
   const { _id } = req.params;
   let org = await orginizationModel.find({});
+  let user = await userModel.findOne({ _id });
   for (let i = 0; i < org.length; i++) {
-    let {
-      orginizationName,
-      channelName,
-      description,
-      expertName,
-      category,
-      country,
-      city,
-      expertImg,
-      coverImg,
-    } = org[i];
-    let orgId = org[i]._id;
-    org[i] = {
-      orgId,
-      orginizationName,
-      channelName,
-      description,
-      expertName,
-      category: category[0],
-      country,
-      city,
-      expertImg,
-    };
+    if (!user.followedChannelsMemberships.includes(org[i]._id)) {
+      let {
+        orginizationName,
+        channelName,
+        description,
+        expertName,
+        category,
+        country,
+        city,
+        expertImg,
+        coverImg,
+      } = org[i];
+      let orgId = org[i]._id;
+      org[i] = {
+        orgId,
+        orginizationName,
+        channelName,
+        description,
+        expertName,
+        category: category[0],
+        country,
+        city,
+        expertImg,
+        coverImg,
+      };
+      recommendedChannels.push(org[i]);
+    }
   }
-  res.json({ message: "success", org });
+  res.json({ message: "success", recommendedChannels });
 };
 
 //PROFILE PICS

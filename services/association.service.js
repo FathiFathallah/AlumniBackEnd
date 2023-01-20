@@ -109,32 +109,38 @@ module.exports.getAssociationsforUser = async (req, res) => {
 };
 
 module.exports.getRecommendedAssociationsforUser = async (req, res) => {
+  let recommendedMembership = [];
   const { _id } = req.params;
   let associations = await associationModel.find({});
+  let user = await userModel.findOne({ _id });
   for (let i = 0; i < associations.length; i++) {
-    let {
-      associationName,
-      description,
-      expertName,
-      category,
-      country,
-      city,
-      expertImg,
-      coverImg,
-    } = associations[i];
-    let associationId = associations[i]._id;
-    associations[i] = {
-      associationName,
-      description,
-      expertName,
-      category: category[0],
-      country,
-      city,
-      expertImg,
-      coverImg,
-    };
+    if (!user.followedChannelsMemberships.includes(associations[i]._id)) {
+      let {
+        associationName,
+        description,
+        expertName,
+        category,
+        country,
+        city,
+        expertImg,
+        coverImg,
+      } = associations[i];
+      let associationId = associations[i]._id;
+      associations[i] = {
+        associationId,
+        associationName,
+        description,
+        expertName,
+        category: category[0],
+        country,
+        city,
+        expertImg,
+        coverImg,
+      };
+      recommendedMembership.push(associations[i]);
+    }
   }
-  res.json({ message: "success", associations });
+  res.json({ message: "success", recommendedMembership });
 };
 
 module.exports.getAssociationCoverPic = async (req, res) => {

@@ -149,3 +149,54 @@ module.exports.getUserJobs = async (req, res) => {
   });
   res.json({ message: "success", jobs });
 };
+
+module.exports.jobFiltering = async (req, res) => {
+  const { industry, jobType, country } = req.body;
+  let currentDate = new Date();
+  currentDate = currentDate.toISOString();
+  let jobsSearched = [];
+  let jobsId = [];
+
+  let jobs = await jobModel.find({
+    industry,
+    deadline: { $gt: currentDate },
+  });
+  for (let i = 0; i < jobs.length; i++) {
+    jobsSearched.push(jobs[i]);
+    jobsId.push(jobs[i]._id + "");
+  }
+
+  let jobs2 = await jobModel.find({
+    jobType,
+    deadline: { $gt: currentDate },
+  });
+
+  for (let j = 0; j < jobs2.length; j++) {
+    if (!jobsId.includes(jobs2[j]._id + "")) {
+      jobsId.push(jobs2[j]._id + "");
+      jobsSearched.push(jobs2[j]);
+    }
+  }
+
+  let org = await orginizationModel.find({
+    country,
+  });
+
+  let jobsOrg = [];
+  for (let i = 0; i < org.length; i++) {
+    for (let j = 0; j < org[i].jobs.length; j++) {
+      jobsOrg.push(org[i].jobs[j]);
+    }
+  }
+  let jobs3 = await jobModel.find({
+    _id: { $in: jobsOrg },
+    deadline: { $gt: currentDate },
+  });
+
+  for (let j = 0; j < jobs3.length; j++) {
+    if (!jobsId.includes(jobs3[j]._id + "")) {
+      jobsSearched.push(jobs3[j]);
+    }
+  }
+  res.json({ message: "success", jobsSearched });
+};

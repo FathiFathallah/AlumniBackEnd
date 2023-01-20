@@ -91,7 +91,7 @@ module.exports.getTimelinePosts = async (req, res) => {
   let postsResponse = [];
   const { _id } = req.params;
   const { followedChannelsMemberships } = await userModel.findOne({ _id });
-  let posts = await postModel.find({}).sort({ updatedAt: -1 });
+  let posts = await postModel.find({}).sort({ createdAt: -1 });
   for (let i = 0; i < posts.length; i++) {
     if (followedChannelsMemberships.includes(posts[i].orginizationId)) {
       let a = path.extname(posts[i].mediaFile).toLowerCase();
