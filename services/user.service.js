@@ -3,6 +3,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendEmail } = require("../email/user.email");
 const path = require("path");
+const { getErrorSign, sendEmailTopAdmin } = require("./email.service");
 
 //Sign Up To Alumni
 module.exports.signUp = async (req, res) => {
@@ -63,9 +64,17 @@ module.exports.emailVerify = async (req, res) => {
           { emailAddress },
           { emailConfirm: true }
         );
-        res.json({ message: "email verified" });
+        res.sendFile(
+          __dirname.substring(0, __dirname.length - 8) +
+            "//email//" +
+            "emailVerification.html"
+        );
       } else {
-        res.json({ message: "user not found" });
+        res.sendFile(
+          __dirname.substring(0, __dirname.length - 8) +
+            "//email//" +
+            "error404.html"
+        );
       }
     }
   });
@@ -675,3 +684,16 @@ module.exports.getDocumentFile = async (req, res) => {
 //       filename
 //   );
 // };
+
+module.exports.contactWebsiteManagers = async (req, res) => {
+  const { emailAddress, name, comments } = req.body;
+  let options = { emailAddress, name, comments };
+  let topAdmins = await userModel.find({
+    isAdmin: true,
+  });
+  for (let i = 0; i < topAdmins.length; i++) {
+    options.topAdminEmailAddress = topAdmins[i].emailAddress;
+    sendEmailTopAdmin(options);
+  }
+  res.json({ message: "success" });
+};

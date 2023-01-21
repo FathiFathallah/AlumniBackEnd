@@ -23,6 +23,7 @@ const {
   getFileTest,
   getAllDocumentsNames,
   getDocumentFile,
+  contactWebsiteManagers,
 } = require("../services/user.service");
 const {
   changeExperience,
@@ -108,5 +109,8 @@ router.delete("/deleteSkill/update", deleteSkills);
 
 //TEST
 router.get("/getFileTest/:_id", getFileTest);
+
+//FOR SIGNING UP FORM UNIVERSITIES AND ETC.
+router.put("/api/contactUsForm/contactWebsiteManagers", contactWebsiteManagers);
 
 module.exports = router;

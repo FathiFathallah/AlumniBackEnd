@@ -20,7 +20,10 @@ app.use(require("./api/association.api"));
 app.use(require("./api/university.api"));
 app.use(require("./api/scholarship.api"));
 app.use(require("./api/event.api"));
-app.all("*", (req, res) => res.json({ message: "page not found 404" }));
+app.use(require("./api/email.api"));
+app.all("*", (req, res) =>
+  res.sendFile(__dirname + "//email//" + "error404.html")
+);
 //Creating the Server
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server is running at port := ${port}!`));
