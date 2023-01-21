@@ -130,7 +130,7 @@ module.exports.getUserApplication = async (req, res) => {
 module.exports.applyToJob = async (req, res) => {
   const { _id, jobId } = req.body;
   let user = await userModel.findOne({ _id });
-  if (user.cv === "") {
+  if (user.documents[0].cv === "") {
     res.json({ message: "user cv needed" });
   } else {
     await jobModel.findOneAndUpdate(

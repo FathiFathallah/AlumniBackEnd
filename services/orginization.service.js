@@ -43,51 +43,58 @@ module.exports.signUp = async (req, res) => {
 module.exports.getOrgInformation = async (req, res) => {
   const { _id } = req.params;
   const orginization = await orginizationModel.findOne({ _id });
-  let {
-    orginizationName,
-    channelName,
-    description,
-    expertName,
-    expertPhoneNumber,
-    category,
-    followers,
-    posts,
-    events,
-    country,
-    city,
-    expertEmailAddress,
-    jobs,
-    expertImg,
-    coverImg,
-  } = orginization;
-  let orgInfo = {
-    orginizationName,
-    channelName,
-    description,
-    expertName,
-    expertPhoneNumber,
-    category: category[0],
-    followersNum: followers.length,
-    postsNum: posts.length,
-    eventsNum: events.length,
-    country,
-    city,
-    expertEmailAddress,
-    jobsNum: jobs.length,
-    expertImg,
-    coverImg,
-  };
-  let channelExpertImg = fs.readFileSync(
-    __dirname.substring(0, __dirname.length - 8) +
-      "//coverImgWithExpert//" +
-      expertImg
-  );
-  let channelCoverImg = fs.readFileSync(
-    __dirname.substring(0, __dirname.length - 8) +
-      "//coverImgWithExpert//" +
-      coverImg
-  );
-  res.json({ message: "success", orgInfo, channelExpertImg, channelCoverImg });
+  if (orginization) {
+    let {
+      orginizationName,
+      channelName,
+      description,
+      expertName,
+      expertPhoneNumber,
+      category,
+      followers,
+      posts,
+      events,
+      country,
+      city,
+      expertEmailAddress,
+      jobs,
+      expertImg,
+      coverImg,
+    } = orginization;
+    let orgInfo = {
+      orginizationName,
+      channelName,
+      description,
+      expertName,
+      expertPhoneNumber,
+      category: category[0],
+      followersNum: followers.length,
+      postsNum: posts.length,
+      eventsNum: events.length,
+      country,
+      city,
+      expertEmailAddress,
+      jobsNum: jobs.length,
+      expertImg,
+      coverImg,
+    };
+    let channelExpertImg = fs.readFileSync(
+      __dirname.substring(0, __dirname.length - 8) +
+        "//coverImgWithExpert//" +
+        expertImg
+    );
+    let channelCoverImg = fs.readFileSync(
+      __dirname.substring(0, __dirname.length - 8) +
+        "//coverImgWithExpert//" +
+        coverImg
+    );
+    res.json({
+      message: "success",
+      orgInfo,
+      channelExpertImg,
+      channelCoverImg,
+    });
+  }
 };
 
 module.exports.updateChannelInformation = async (req, res) => {

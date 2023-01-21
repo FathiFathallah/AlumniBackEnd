@@ -656,6 +656,7 @@ module.exports.getDocumentFile = async (req, res) => {
   } else if (fileType == "universityTranscript") {
     filename = documents[3].universityTranscript;
   }
+  console.log(filename);
   res.sendFile(
     __dirname.substring(0, __dirname.length - 8) +
       "//documentFiles//" +
